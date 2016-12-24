@@ -1,45 +1,48 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>@ViewBag.Title</title>
 
+  <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/bootstrap.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/fonts/font-awesome/css/font-awesome.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/css/site.css")">
+
+  <script src="@Url.Content("~/Content/js/modernizr-2.6.2.js")"></script>
+  <script src="@Url.Content("~/Content/jQuery/jquery-3.1.1.min.js")"></script>
+  <script src="@Url.Content("~/Content/jQuery/jquery.cookie.js")"></script>
+  <script src="@Url.Content("~/Content/jQuery/jquery.validate.min.js")"></script>
+  <script src="@Url.Content("~/Content/jQuery/jquery.validate.unobtrusive.min.js")"></script>
+  <script src="@Url.Content("~/Content/jQuery/jquery.unobtrusive-ajax.min.js")"></script>
+  <script src="@Url.Content("~/Content/Bootstrap/js/bootstrap.min.js")"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        @Html.ActionLink("Главная", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav"></ul>
+      </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-        </footer>
-    </div>
+  </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+  <div class="container body-content">
+    @RenderBody()
+  </div>
+
+  <script src="@Url.Content("~/Content/js/site.js")"></script>
+  @RenderSection("scripts", required: false)
+  @* Scripts from partials *@
+  @Html.RenderScripts()
 </body>
 </html>
