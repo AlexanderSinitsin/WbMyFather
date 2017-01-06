@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using WbMyFather.DAL.Entities;
 
 namespace WbMyFather.DAL.Context
@@ -23,7 +24,12 @@ namespace WbMyFather.DAL.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
+            modelBuilder.Entity<WordBook>()
+                .HasMany(lo => lo.Pages)
+                .WithRequired(lor => lor.WordBook)
+                .WillCascadeOnDelete();
         }
     }
 }

@@ -76,6 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTableRepository.cs" />
+    <Compile Include="Entities\Book.cs" />
+    <Compile Include="Entities\Line.cs" />
+    <Compile Include="Entities\Page.cs" />
+    <Compile Include="Entities\WordBook.cs" />
     <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IRepository.cs" />
@@ -84,6 +88,10 @@
     <Compile Include="Migrations\201701061724499_Inital.cs" />
     <Compile Include="Migrations\201701061724499_Inital.Designer.cs">
       <DependentUpon>201701061724499_Inital.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701061914311_CreateWordBook.cs" />
+    <Compile Include="Migrations\201701061914311_CreateWordBook.Designer.cs">
+      <DependentUpon>201701061914311_CreateWordBook.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Base\IDeletedEntity.cs" />
@@ -125,6 +133,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701061724499_Inital.resx">
       <DependentUpon>201701061724499_Inital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701061914311_CreateWordBook.resx">
+      <DependentUpon>201701061914311_CreateWordBook.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
