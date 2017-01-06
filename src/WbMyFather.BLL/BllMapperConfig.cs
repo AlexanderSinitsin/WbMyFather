@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WbMyFather.DAL.Entities;
+using WbMyFather.DAL.Model;
+using WbMyFather.DTO;
+using WbMyFather.DTO.Models;
 
 namespace WbMyFather.BLL
 {
@@ -11,7 +15,14 @@ namespace WbMyFather.BLL
     {
         public BllMapperConfig()
         {
+            CreateMap(typeof(PagedList<>), typeof(PagedListDto<>));
 
+            //Мапирование обектов доменной модели на объекты DTO или обекты BLL
+            CreateMap<Line, LineDto>();
+            CreateMap<Page, PageDto>();
+            CreateMap<Word, WordDto>();
+            CreateMap<Book, BookDto>();
+            CreateMap<WordBook, WordBookDto>();
         }
     }
 }

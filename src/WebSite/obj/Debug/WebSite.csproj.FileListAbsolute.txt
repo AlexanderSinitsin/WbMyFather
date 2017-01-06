@@ -208,3 +208,5 @@ C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\E
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.BLL.pdb
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.DAL.pdb
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\EntityFramework.Extended.xml
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.DTO.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.DTO.pdb

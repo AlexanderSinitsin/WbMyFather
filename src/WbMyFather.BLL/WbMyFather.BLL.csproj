@@ -96,6 +96,10 @@
       <Project>{2daca6c6-3ae5-4fdf-84b9-ca8a785a69c9}</Project>
       <Name>WbMyFather.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WbMyFather.DTO\WbMyFather.DTO.csproj">
+      <Project>{153010eb-2ab4-4925-a867-5ef1b2f3dbec}</Project>
+      <Name>WbMyFather.DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
