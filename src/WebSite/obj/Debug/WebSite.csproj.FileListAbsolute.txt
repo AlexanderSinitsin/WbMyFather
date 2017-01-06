@@ -197,3 +197,4 @@ C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\r
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\ru\System.Web.WebPages.Razor.resources.dll
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\obj\Debug\WebSite.dll
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\obj\Debug\WebSite.pdb
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
