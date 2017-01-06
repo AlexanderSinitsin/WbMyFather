@@ -17,6 +17,6 @@ namespace WbMyFather.DAL.Entities
         public int BookId { get; set; }
         public virtual Book Book { get; set; }
 
-        public ICollection<Page> Pages { get; set; }
+        public virtual ICollection<Page> Pages { get; set; }
     }
 }

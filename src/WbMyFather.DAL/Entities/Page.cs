@@ -16,6 +16,6 @@ namespace WbMyFather.DAL.Entities
         public int WordBookId { get; set; }
         public virtual WordBook WordBook { get; set; }
 
-        public ICollection<Line> Lines { get; set; }
+        public virtual ICollection<Line> Lines { get; set; }
     }
 }
