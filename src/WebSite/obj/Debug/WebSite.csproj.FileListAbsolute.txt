@@ -198,3 +198,13 @@ C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\r
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\obj\Debug\WebSite.dll
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\obj\Debug\WebSite.pdb
 C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\SqlServerTypes\x64\msvcr100.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\SqlServerTypes\x86\msvcr100.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.BLL.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.DAL.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\EntityFramework.Extended.dll
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.BLL.pdb
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\WbMyFather.DAL.pdb
+C:\Users\Lida\Documents\Visual Studio 2015\Projects\WbMyFather\src\WebSite\bin\EntityFramework.Extended.xml

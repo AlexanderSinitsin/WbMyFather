@@ -4,10 +4,16 @@ using AutoMapper;
 using Common.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using WbMyFather.BLL;
+using WbMyFather.BLL.Services;
+using WbMyFather.BLL.Services.Interfaces;
+using WbMyFather.DAL;
+using WbMyFather.DAL.Context;
 using WebSite.Mapping;
 
 namespace WebSite.App_Start
@@ -39,6 +45,12 @@ namespace WebSite.App_Start
                 return mapperConfiguration.CreateMapper();
 
             }).As<IMapper>().SingleInstance();
+
+            builder.RegisterType<DataContext>().As<DbContext>().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IRepository<>));
+            builder.RegisterType<UnitOfWorkBase>().As<IUnitOfWork>();
+            builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>();
+            builder.RegisterType<WordsService>().As<IWordsService>();
         }
     }
 }

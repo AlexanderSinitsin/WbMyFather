@@ -265,6 +265,16 @@
   <ItemGroup>
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WbMyFather.BLL\WbMyFather.BLL.csproj">
+      <Project>{2bb001b7-10b3-4b72-993f-3e58cdcae54b}</Project>
+      <Name>WbMyFather.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WbMyFather.DAL\WbMyFather.DAL.csproj">
+      <Project>{2daca6c6-3ae5-4fdf-84b9-ca8a785a69c9}</Project>
+      <Name>WbMyFather.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
