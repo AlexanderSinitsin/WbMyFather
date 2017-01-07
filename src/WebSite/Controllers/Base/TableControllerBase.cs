@@ -13,7 +13,7 @@ using WebSite.Models.Shared;
 using WebSite.Models.Shared.Tables;
 using WebSite.Models.Shared.Tables.Requests;
 
-namespace WbMyFather.WebSite.Controllers.Base
+namespace WebSite.Controllers.Base
 {
     public abstract class TableControllerBase<TModel> : BaseController where TModel : class
     {

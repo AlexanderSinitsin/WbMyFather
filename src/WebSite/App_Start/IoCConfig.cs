@@ -2,12 +2,9 @@
 using Autofac.Integration.Mvc;
 using AutoMapper;
 using Common.Logging;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
 using WbMyFather.BLL;
 using WbMyFather.BLL.Services;
@@ -16,7 +13,7 @@ using WbMyFather.DAL;
 using WbMyFather.DAL.Context;
 using WebSite.Mapping;
 
-namespace WebSite.App_Start
+namespace WebSite
 {
     public static class IoCConfig
     {

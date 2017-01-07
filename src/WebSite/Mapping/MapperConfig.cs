@@ -20,7 +20,17 @@ namespace WebSite.Mapping
             CreateMap<BookDto, Book>();
             CreateMap<LineDto, Line>();
             CreateMap<PageDto, Page>();
-            CreateMap<WordBookDto, WordBook>();
+            CreateMap<WordBookDto, WordBook>()
+                .ForMember(x => x.Books, d => d.MapFrom(p => new List<Book> {
+                    new Book {
+                        Id =p.Book.Id,
+                        Name=p.Book.Name,
+                        CityOfPublication=p.Book.CityOfPublication,
+                        DateOfPublication=p.Book.DateOfPublication,
+                        Publication=p.Book.Publication,
+                        Reference=p.Book.Reference
+                    }
+                }));
             CreateMap<WordDto, WordListItemViewModel>()
                 .ForMember(x => x.Books, d => d.MapFrom(p =>
                     string.Join(", ", p.WordBooks.Select(wb => wb.Book.Name))

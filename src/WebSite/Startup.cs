@@ -3,7 +3,7 @@ using Owin;
 using System.Web.Mvc;
 using System.Web.Routing;
 using WbMyFather.BLL;
-using WebSite.App_Start;
+using WebSite;
 
 [assembly: OwinStartup(typeof(WebSite.Startup))]
 namespace WebSite
@@ -15,9 +15,9 @@ namespace WebSite
             // Инициализация БД
             BllServiceInitializer.Initialize();
 
-            IoCConfig.RegisterDependencies();
+            /*IoCConfig.RegisterDependencies();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);*/
         }
     }
 }

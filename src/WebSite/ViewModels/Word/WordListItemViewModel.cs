@@ -9,9 +9,6 @@ namespace WebSite.ViewModels.Word
 {
     public class WordListItemViewModel
     {
-        [IntMatchFilter("Id")]
-        [Sortable]
-        [Display(Name = "ID")]
         public int Id { get; set; }
 
         public DateTime DateCreate { get; set; }
@@ -23,11 +20,11 @@ namespace WebSite.ViewModels.Word
 
         public IEnumerable<WordBook> WordBooks { get; set; }
 
-        [StringContainsFilter("WordBooks", RelatedEntityPropertyNames = "Books.Name")]
+        //[StringContainsFilter("WordBooks", RelatedEntityPropertyNames = "Books.Name")]
         [Display(Name = "Книги")]
         public string Books { get; set; }
 
-        [StringContainsFilter("WordBooks", RelatedEntityPropertyNames = "Pages.Number")]
+        //[StringContainsFilter("WordBooks", RelatedEntityPropertyNames = "Pages.Number")]
         [Display(Name = "Расположение")]
         public string Pages { get; set; }
     }

@@ -18,7 +18,7 @@
     <AssemblyName>WebSite</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -45,8 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.0.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.0.1\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -65,8 +65,8 @@
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Common.Logging.NLog41, Version=3.3.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.NLog41.3.3.0\lib\net40\Common.Logging.NLog41.dll</HintPath>
+    <Reference Include="Common.Logging.NLog41, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.NLog41.3.3.1\lib\net40\Common.Logging.NLog41.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Forloop.HtmlHelpers, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -194,25 +194,63 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IoCConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Base\BaseController.cs" />
+    <Compile Include="Controllers\Base\TableControllerBase.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\WordTableController.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalConsts.cs" />
     <Compile Include="Mapping\MapperConfig.cs" />
-    <Compile Include="MVC\Helpers\JsHelper.cs" />
-    <Compile Include="MVC\Helpers\MenuHelper.cs" />
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Line.cs" />
+    <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\Shared\PagedList.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\Filters\Base\ColumnFilterAttributeBase.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\Filters\Base\IColumnFilter.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\Filters\DateRangeFilterAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\Filters\DecimalRangeFilterAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\Filters\IntMatchFilterAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\Filters\RoadSectionServicesCategoriesFilterAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\Filters\StringContainsFilterAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\HiddenAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\SortableAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\Attributes\TdClassAttribute.cs" />
+    <Compile Include="Models\Shared\Tables\ColumnMetadata.cs" />
+    <Compile Include="Models\Shared\Tables\ITableModel.cs" />
+    <Compile Include="Models\Shared\Tables\Requests\Column.cs" />
+    <Compile Include="Models\Shared\Tables\Requests\Order.cs" />
+    <Compile Include="Models\Shared\Tables\Requests\Search.cs" />
+    <Compile Include="Models\Shared\Tables\Requests\TableDataRequest.cs" />
+    <Compile Include="Models\Shared\Tables\TableButton.cs" />
+    <Compile Include="Models\Shared\Tables\TableModel.cs" />
+    <Compile Include="Models\WordBook.cs" />
+    <Compile Include="Mvc\Helpers\JsHelper.cs" />
+    <Compile Include="Mvc\Helpers\MenuHelper.cs" />
+    <Compile Include="Mvc\Helpers\TableHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionManager.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Word\WordListItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\js\common\extensions\string.js" />
+    <Content Include="Assets\js\common\helpers\formsHelper.js" />
+    <Content Include="Assets\js\common\helpers\popups.js" />
+    <Content Include="Assets\js\common\helpers\select2helper.js" />
+    <Content Include="Assets\js\common\helpers\UrlHelper.js" />
+    <Content Include="Assets\js\pages\tablesFilters\tablesFilters.js" />
+    <Content Include="Assets\js\pages\wordInit.js" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\css\Site.css" />
+    <Content Include="Content\css\site.css" />
     <Content Include="Content\fonts\font-awesome\css\font-awesome.css" />
     <Content Include="Content\fonts\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\fonts\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -254,6 +292,9 @@
     <Content Include="Assets\css\common\sideMenu.less" />
     <Content Include="Assets\css\common\tables.less" />
     <Content Include="Assets\css\common\forms.less" />
+    <Content Include="Assets\css\common\modalWindows.less" />
+    <Content Include="Content\jquery\jquery-2.1.1.min.map" />
+    <Content Include="Content\css\site.css.map" />
     <None Include="Content\jquery\jquery-3.1.1.intellisense.js" />
     <Content Include="Content\Inspinia\animate.css" />
     <Content Include="Content\Inspinia\js\inspinia.js" />
@@ -317,6 +358,9 @@
     <Content Include="Content\Inspinia\plugins\slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Content\Inspinia\plugins\typeahead\bootstrap3-typeahead.min.js" />
     <Content Include="Content\Inspinia\style.css" />
+    <None Include="Content\jquery\jquery-2.1.1.intellisense.js" />
+    <Content Include="Content\jquery\jquery-2.1.1.js" />
+    <Content Include="Content\jquery\jquery-2.1.1.min.js" />
     <Content Include="Content\jquery\jquery-3.1.1.js" />
     <Content Include="Content\jquery\jquery-3.1.1.min.js" />
     <Content Include="Content\jquery\jquery-3.1.1.slim.js" />
@@ -329,7 +373,7 @@
     <Content Include="Content\jquery\jquery.validate.unobtrusive.js" />
     <Content Include="Content\jquery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\js\modernizr-2.6.2.js" />
-    <Content Include="Content\js\Site.js" />
+    <Content Include="Content\js\site.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
@@ -364,12 +408,13 @@
     <Content Include="Views\Shared\_SideMenu.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Shared\_AccessDeniedPartial.cshtml" />
+    <Content Include="Views\Shared\AccessDenied.cshtml" />
+    <Content Include="Views\Shared\_TablePartial.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Assets\js\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Content\js\site.js.map" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
@@ -380,6 +425,10 @@
     <ProjectReference Include="..\WbMyFather.DAL\WbMyFather.DAL.csproj">
       <Project>{2daca6c6-3ae5-4fdf-84b9-ca8a785a69c9}</Project>
       <Name>WbMyFather.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WbMyFather.DTO\WbMyFather.DTO.csproj">
+      <Project>{153010eb-2ab4-4925-a867-5ef1b2f3dbec}</Project>
+      <Name>WbMyFather.DTO</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -396,16 +445,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>64983</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:64983/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

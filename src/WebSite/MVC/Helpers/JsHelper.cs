@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Smik.WebSite.Mvc.Helpers
+namespace WebSite.Mvc.Helpers
 {
     public static class JsHelper
     {

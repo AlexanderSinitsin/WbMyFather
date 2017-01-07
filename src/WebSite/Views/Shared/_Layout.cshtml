@@ -22,10 +22,10 @@
   <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/animate.css")">
   <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/style.css")">
   <link rel="stylesheet" href="@Url.Content("~/Content/fonts/font-awesome/css/font-awesome.min.css")">
-  <link rel="stylesheet" href="@Url.Content("~/Content/css/Site.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/css/site.css")">
 
   <script src="@Url.Content("~/Content/js/modernizr-2.6.2.js")"></script>
-  <script src="@Url.Content("~/Content/jQuery/jquery-3.1.1.min.js")"></script>
+  <script src="@Url.Content("~/Content/jQuery/jquery-2.1.1.min.js")"></script>
   <script src="@Url.Content("~/Content/jQuery/jquery.cookie.js")"></script>
   <script src="@Url.Content("~/Content/jQuery/jquery.validate.min.js")"></script>
   <script src="@Url.Content("~/Content/jQuery/jquery.validate.unobtrusive.min.js")"></script>
@@ -87,7 +87,17 @@
   <script src="@Url.Content("~/Content/Inspinia/js/inspinia.js")"></script>
   <script src="@Url.Content("~/Content/Inspinia/plugins/datepicker/bootstrap-datepicker.js")"></script>
   <script src="@Url.Content("~/Content/Inspinia/plugins/datepicker/locales/bootstrap-datepicker.ru.js")"></script>
-  <script src="@Url.Content("~/Content/js/Site.js")"></script>
+  <script src="@Url.Content("~/Content/js/site.js")"></script>
+
+    <script>
+
+      //отключаем обработку ошибок DataTables
+      $.fn.dataTable.ext.errMode = 'none';
+
+      //var Url = new UrlHelper('@Url.Content("~/")');
+
+    </script>
+
   @RenderSection("scripts", required: false)
   @* Scripts from partials *@
   @Html.RenderScripts()

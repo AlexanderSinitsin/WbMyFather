@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Smik.WebSite.Mvc.Helpers
+namespace WebSite.Mvc.Helpers
 {
     public static class MenuHelper
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WbMyFather.WebSite.Controllers.Base
+namespace WebSite.Controllers.Base
 {
     public abstract class BaseController : Controller
     {

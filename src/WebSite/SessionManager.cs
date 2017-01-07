@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace WbMyFather.WebSite
+namespace WebSite
 {
     public class SessionManager
     {

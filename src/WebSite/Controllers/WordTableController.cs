@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using WbMyFather.BLL.Services.Interfaces;
 using WbMyFather.DTO.Models;
 using WbMyFather.DTO.Models.Requests;
-using WbMyFather.WebSite.Controllers.Base;
+using WebSite.Controllers.Base;
 using WebSite.Models.Shared;
 using WebSite.Models.Shared.Tables;
 using WebSite.Models.Shared.Tables.Requests;
 using WebSite.ViewModels.Word;
 
-namespace WbMyFather.WebSite.Controllers
+namespace WebSite.Controllers
 {
     public class WordTableController : TableControllerBase<WordListItemViewModel>
     {

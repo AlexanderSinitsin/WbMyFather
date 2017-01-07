@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WebSite.MVC.Helpers
+namespace WebSite.Mvc.Helpers
 {
     public static class TableHelper
     {

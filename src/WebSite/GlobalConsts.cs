@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WbMyFather.WebSite
+namespace WebSite
 {
     /// <summary>
     /// Содержит определение констант для фронтенда
