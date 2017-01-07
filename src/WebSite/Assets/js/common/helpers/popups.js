@@ -1,19 +1,4 @@
-function disableSubmitOnEditForm() {
-  $('#object-edit-content button[type="submit"]').attr('disabled', 'disabled');
-  $('#recovery-password-content button[type="submit"]').attr('disabled', 'disabled');
-  $('#change-password-content button[type="submit"]').attr('disabled', 'disabled');
-  $('#login-content button[type="submit"]').attr('disabled', 'disabled');
-}
-
-//TODO нужно переименовать и в объект сложить
-function removeDisabledSubmit() {
-  $('#object-edit-content button[type="submit"]').removeAttr('disabled');
-  $('#recovery-password-content button[type="submit"]').removeAttr('disabled');
-  $('#change-password-content button[type="submit"]').removeAttr('disabled');
-  $('#login-content button[type="submit"]').removeAttr('disabled');
-}
-
-var Popups = {
+﻿var Popups = {
 
   showPopup: function (url, data, container, modalWindow, success) {
     container.html('');
@@ -107,19 +92,3 @@ var Popups = {
     return $popup;
   }
 }
-
-var Select2Helper = (function () {
-  function findOption(choiseElemet) {
-    var title = choiseElemet.attr("title");
-    var options = choiseElemet.closest("td").children().first().find("option");
-    var option = $.grep(options, function (value) {
-      return $(value).html() === title;
-    })[0];
-
-    return $(option);
-  }
-
-  return { findOption: findOption }
-})
-
-//# sourceMappingURL=site.js.map

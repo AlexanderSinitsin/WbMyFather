@@ -3,6 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WbMyFather.DTO;
+using WbMyFather.DTO.Models;
+using WebSite.Models;
+using WebSite.Models.Shared;
+using WebSite.ViewModels.Word;
 
 namespace WebSite.Mapping
 {
@@ -10,7 +15,24 @@ namespace WebSite.Mapping
     {
         public MapperConfig()
         {
+            CreateMap(typeof(PagedListDto<>), typeof(PagedList<>));
 
+            CreateMap<BookDto, Book>();
+            CreateMap<LineDto, Line>();
+            CreateMap<PageDto, Page>();
+            CreateMap<WordBookDto, WordBook>();
+            CreateMap<WordDto, WordListItemViewModel>()
+                .ForMember(x => x.Books, d => d.MapFrom(p =>
+                    string.Join(", ", p.WordBooks.Select(wb => wb.Book.Name))
+                ))
+                .ForMember(x => x.Pages, d => d.MapFrom(p =>
+                    string.Join(", ", p.WordBooks.Select(wb =>
+                        string.Join("; ", wb.Pages.Select(pg =>
+                            pg.Number + " " + string.Join(": ", pg.Lines.Select(l =>
+                                l.Up ? "^" + l.Number : "_" + l.Number))
+                            ))
+                         ))
+                     ));
         }
     }
 }

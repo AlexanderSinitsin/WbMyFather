@@ -1,14 +1,30 @@
-﻿using System;
+﻿using AutoMapper;
+using Common.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WbMyFather.BLL.Services.Interfaces;
 
 namespace WebSite.Controllers
 {
-    public class BookController : Controller
+    public class BookController : BaseController
     {
-        // GET: Book
+        private readonly ILog _log;
+        private readonly IMapper _mapper;
+        private readonly IWordsService _wordsService;
+
+        public BookController(IWordsService wordsService,
+           IMapper mapper,
+           ILog log,
+           ILog someService) : base(someService)
+        {
+            _wordsService = wordsService;
+            _mapper = mapper;
+            _log = log;
+        }
+
         public ActionResult Index()
         {
             return View();

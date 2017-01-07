@@ -38,6 +38,7 @@ namespace WebSite.App_Start
             {
                 var mapperConfiguration = new MapperConfiguration(cfg =>
                 {
+                    cfg.AddProfile<BllMapperConfig>();
                     cfg.AddProfile<MapperConfig>();
                 });
 

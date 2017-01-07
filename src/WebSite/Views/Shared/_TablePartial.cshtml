@@ -1,0 +1,240 @@
+﻿@using WebSite.MVC.Helpers
+@model WebSite.Models.Shared.Tables.ITableModel
+
+<div class="m-b-xs">
+  @foreach (var button in Model.Buttons)
+  {
+      @Html.Raw(button.Html)
+  }
+</div>
+
+<div class="table-responsive">
+  <table id="@Model.TableId" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th rowspan="2" name="checkAll"></th>
+        @foreach (var column in Model.Columns)
+        {
+            <th id="column_@(column.Name)_filter">
+              @if (column.IsFilterable)
+              {
+                  @Html.Raw(column.ColumnFilter.Html)
+              }
+            </th>
+        }
+      </tr>
+      <tr>
+        @foreach (var column in Model.Columns)
+        {
+            <th>@column.HeaderName</th>
+        }
+      </tr>
+    </thead>
+  </table>
+</div>
+
+
+
+@* Шаблон для диалога выбора видимости столбцов в таблице *@
+<script type="text/tmpl" id="columns-visibility-tmpl">
+  <div>
+    <input id="{Name}-checkbox" type="checkbox" js="column-show-hide" data-column-name="{Name}" />
+    <label for="{Name}-checkbox" class="control-label--custom label-inline">{HeaderName}</label>
+  </div>
+</script>
+
+<script type="text/json" id="column-definition">
+  @Html.Json(Model.Columns)
+</script>
+
+<script>
+  $(function() {
+
+    function arrayColumn(arr, n) {
+      return arr.map(function(currentRow) {
+        return currentRow[n];
+      });
+    }
+
+    var table = null;
+    var columns = JSON.parse($('#column-definition').text());
+    var checkedRows = [];
+
+    var options = {
+      ajax: "@Url.Action("TableData")",
+      rowId: 'Id',
+      language: {
+        url: "@Url.Content("~/Content/Inspinia/plugins/dataTables/languages/Russian.json")",
+        select: {
+          rows: "Выбрано %d строк"
+        }
+      },
+      processing: true,
+      serverSide: true,
+      searching: true,
+      bFilter: false,
+      columnDefs: [
+        {
+          orderable: false,
+          className: @(Model.IsMultipleSelect ? Html.Raw("'select-checkbox'") : Html.Raw("'select-radiobutton'")),
+          targets: 0
+        }
+      ],
+      select: {
+        style: '@(Model.IsMultipleSelect ? "multi" : "single")',
+        selector: 'td:first-child'
+      },
+      order: [[1, 'asc']],
+      initComplete: function() {
+        //Используется для кэширования html-разметки диалога "Видимость столбцов"
+        var popupContent = '';
+
+        $('<button class="btn btn-sm btn-default pull-right"><i class="fa fa-cog"></i></button>')
+          .appendTo($('.col-sm-6:eq(1)', table.table().container() ))
+          .on('click', function() {
+            if (!popupContent) {
+              var tmpl = $('#columns-visibility-tmpl').text();
+              columns
+                .filter(function(c) { return !c.IsHidden; })
+                .forEach(function(column) {
+                  popupContent += tmpl.format(column);
+                });
+            }
+
+            var $popup = Popups.show(popupContent, 'Видимость столбцов');
+            columns.forEach(function(column) {
+              $popup
+                .find('#{Name}-checkbox'.format(column))
+                .prop('checked', table.column('{Name}:name'.format(column)).visible());
+            });
+          });
+      },
+      createdRow: function(row, data, index) {
+        var row1 = table.row(index);
+        $('td:first-child',row).text('');
+        if (checkedRows.contains(row1.id())) {
+          row1.select();
+        }
+        if (data.RowColor) {
+          $(row).addClass('expired');
+        }
+      }
+    };
+
+    for (var i = 0; i < columns.length; ++i) {
+      options.columnDefs.push({
+        name: columns[i].Name,
+        data: columns[i].Name,
+        orderable: columns[i].IsSortable,
+        visible: columns[i].IsVisible,
+        className: columns[i].CssClass,
+        targets: i + 1
+      });
+    }
+
+
+    var $table = $('#@Model.TableId');
+
+
+    var checkAll = $('[name=checkAll]');
+
+    checkAll.on('click', function() {
+      var checkVal = checkAll.toggleClass('selected').hasClass('selected');
+      $table.find('tbody tr').toggleClass('selected', checkVal);
+      $.each($table.find('tbody tr'), function(idx, obj) {
+        checkedRows.push($(obj).attr('id'));
+      });
+    });
+
+    table = $table.DataTable(options)
+      .on('page', function() {
+        checkAll.toggleClass('selected', false);
+      })
+      .on('select', function(event, api, type, index) {
+        if(api && index){
+          var rowId = api.row(index).id();
+          if (!checkedRows.contains(rowId)) {
+            checkedRows.push(rowId);
+          }
+          checkAllItem();
+        }
+      })
+      .on('deselect', function(event, api, type, index) {
+        checkedRows.removeValue(api.row(index).id());
+        checkAllItem();
+      })
+      .on('page', function() {
+        console.log(arguments);
+      });
+
+    function checkAllItem() {
+      var checkVal = table.rows('.selected').count() == table.rows().count();
+      checkAll.toggleClass('selected', checkVal);
+    }
+
+
+    columns
+      .filter(function(column) { return column.IsFilterable })
+      .forEach(function(column) {
+        ColumnsFilters[column.ColumnFilter.InitJsMethod](table, $('#column_{Name}_filter'.format(column), $table), table.column(column.Name + ':name'));
+      });
+
+
+    @if (!string.IsNullOrEmpty(Model.OnClickFunction))
+    {
+      <text>
+
+    //TODO Вставил пока класс .show-track-td так
+    $table.find('tbody').on('click', 'td:not(.select-checkbox):not(.show-track-td)', function() {
+      var row = table.row($(this).parent()).data();
+      window["@Model.OnClickFunction"](row.Id);
+    });
+
+    </text>
+    }
+
+    @foreach (var button in Model.Buttons)
+    {
+      <text>
+
+    $(document).on('click', '#@button.Id', function() {
+      @(button.OnClickFunction)(checkedRows, table);
+    });
+
+    </text>
+    }
+
+    $('.navbar-minimalize').on('click', function() {
+      setTimeout(function resizeMap() {
+        $('.table.table-striped.table-bordered.table-hover').attr('style', 'width:100%').trigger('xresize');
+      }, 400); // 400 ms анимация меню
+    });
+
+    $(document).on('change', '[js=column-show-hide]', function() {
+      var $checkbox = $(this);
+      var columnName = $checkbox.data('column-name');
+      var isVisible = $checkbox.is(':checked');
+
+      table.column(columnName + ':name').visible(isVisible);
+
+      setColumnVisibility(columnName, isVisible)
+        .then(function() {
+
+        });
+    });
+
+
+    /**
+     * Отправляет данные о смены видимости на сервер
+     * @@param {string} columnName Название колонки
+     * @@param {boolean} isVisible Если true, то колонка видима
+     */
+    function setColumnVisibility(columnName, isVisible) {
+      return $.post('@Url.Action("SetColumnVisibility")', {
+        tableName: $table.attr('id'),
+        columnName: columnName,
+        isVisible: isVisible
+      });
+    };
+  });
+</script>

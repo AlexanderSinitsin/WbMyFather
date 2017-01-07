@@ -2,6 +2,58 @@
     ViewBag.Title = "Словарь моего Отца";
 }
 
-<div class="wrapper wrapper-content animated fadeInRight">
-  Index
+<div id="object-show" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div id="object-show-content" class="modal-content"></div>
+  </div>
 </div>
+<div id="object-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div id="object-edit-content" class="modal-content"></div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h2>@ViewBag.Title</h2>
+          <div class="ibox-tools">
+
+          </div>
+        </div>
+        <div class="ibox-content">
+          @{ Html.RenderAction("Index", "WordTable");}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  "use strict";
+
+  $(function () {
+    //Word.init({
+    //  objectUrl: '@Url.Action("Get", new { id=0 })',
+    //  objectEditUrl: '@Url.Action("Edit", "Contractors")',
+    //  objectDelUrl: '@Url.Action("Delete", "Contractors")'
+    //});
+  });
+
+  function show(id) {
+    console.log(id);
+    //Word.show({ id: id });
+  }
+
+  function addWord(id) {
+    console.log(id);
+    //Word.add();
+  }
+
+  function deleteSelectedWords(ids, table) {
+    console.log(ids, table);
+    //Word.del({ ids: ids, table: table });
+  }
+</script>
