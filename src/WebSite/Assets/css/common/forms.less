@@ -1,0 +1,198 @@
+﻿.form-element {
+  font-size: 12px;
+  line-height: 18px;
+  border-radius: 0;
+}
+
+.control-label {
+  .form-element;
+  padding: 5px 12px;
+  margin: 0;
+}
+
+.form-horizontal {
+  .control-label {
+    padding-top: 5px;
+  }
+}
+
+.control-label--custom {
+  .control-label;
+  font-weight: 400;
+  text-align: left;
+  word-break: break-word;
+}
+
+.form-control {
+  .form-element;
+  padding: 4px 12px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.form-control[text] {
+  .form-element;
+}
+
+.form-element_textarea {
+  .form-element;
+  resize: none;
+  padding: 4px 12px;
+}
+
+textarea.form-control {
+  .form-element_textarea;
+}
+
+.commentary-modal-label {
+  font-size: 12px;
+  text-align: left;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.commentary-modal-label.font-normal {
+  font-weight: 400;
+}
+
+.commentary-modal-textarea {
+  font-size: 12px;
+  padding: 6px 15px;
+  width: 100%;
+  resize: none;
+}
+
+.input--disabled[disabled],
+.input--disabled[readonly] {
+  border: 1px transparent;
+  background: transparent;
+}
+
+.select--disabled {
+  background: transparent;
+  border: none;
+  padding-right: 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select--disabled::-ms-expand {
+  display: none;
+}
+
+.input-group {
+
+  .form-control {
+    z-index: 4;
+  }
+
+  .btn {
+    padding: 3px 9px;
+  }
+}
+
+.select2-max .select2-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  z-index: 3001;
+  max-height: 300px;
+}
+
+.select2-max .select2-container .select2-selection {
+  height: 250px;
+}
+
+.select2-container {
+  width: 100% !important;
+  max-width: 224px !important;
+  z-index: 3001;
+  max-height: 300px;
+}
+
+.select2-container .select2-selection {
+  height: 90px;
+  overflow: auto;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--multiple {
+  background-color: transparent;
+  outline: rgb(169, 169, 169) auto 0;
+  border: none;
+  outline-offset: 0;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  outline: -webkit-focus-ring-color auto 0;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  visibility: hidden !important;
+}
+
+input[type="checkbox"] + .control-label--custom,
+input[type="checkbox"] + input + .control-label--custom {
+  position: relative;
+}
+
+
+input[type="checkbox"] + .control-label--custom:before,
+input[type="checkbox"] + input + .control-label--custom:before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: orange;
+  top: 3px;
+  left: -18px;
+  position: absolute;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked + .control-label--custom:after,
+input[type="checkbox"]:checked + input + .control-label--custom:after {
+  content: "";
+  width: 10px;
+  height: 6px;
+  background: orange;
+  position: absolute;
+  top: 8px;
+  left: -13px;
+  transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg); /* IE 9 */
+  -webkit-transform: rotate(-45deg); /* Safari */
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  border-left: 3px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
+  cursor: pointer;
+}
+
+.card-body input[type="checkbox"]:checked + input + .control-label--custom:after {
+  cursor: default;
+}
+
+.card-body input[type="checkbox"]:checked + input + .control-label--custom:before {
+  cursor: default;
+}
+
+textarea {
+  word-wrap: normal;
+}
+
+.clockpicker-popover {
+  z-index: 999999 !important;
+}
+
+.modal-login {
+  width: 40%;
+  max-width: 400px;
+
+  .modal-header {
+    div.modal-headding {
+      font-size: 12px;
+    }
+  }
+}

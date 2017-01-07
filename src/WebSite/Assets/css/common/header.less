@@ -1,0 +1,120 @@
+﻿.navbar {
+  color: #ffffff;
+  height: 50px;
+  margin: 0;
+}
+
+.navbar-fixed-top {
+  background: #ED793B;
+  border-bottom: none !important;
+
+  .btn-primary {
+    background-color: #ED793B;
+    border-color: #ED793B;
+    color: #FFFFFF;
+  }
+
+  .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary.active:hover, .btn-primary.active:focus {
+    background-color: #d24a43;
+    border-color: #d24a43;
+    color: #FFFFFF;
+  }
+}
+
+.header__label {
+  font-size: 24px;
+  line-height: 1;
+  margin: 10px 0;
+  text-transform: uppercase;
+  font-weight: 400;
+
+  .header__label_bold {
+    font-weight: 700;
+  }
+}
+
+.fixed-nav .minimalize-styl-2 {
+  margin: 9px 0px 11px 8px;
+}
+
+.nav.navbar-right > li > a {
+  color: #ffffff;
+}
+
+.navbar-top-links li a {
+  border-radius: 6px;
+  margin: 11px 0px;
+  padding: 4px 6px;
+  height: auto;
+  min-height: inherit;
+  background: #CB662F;
+}
+
+.navbar-top-links li#userBar {
+  padding: 4px 0;
+  margin: 0 11px 0;
+  display: block;
+
+  a, select, span {
+    border-radius: 6px;
+    margin: 0 11px 0;
+    padding: 7px 6px;
+    height: auto;
+    min-height: inherit;
+    background: #ED793B;
+    color: #fcfcfc;
+  }
+
+  .navbar-top-links {
+    position: fixed;
+    margin: 4px 0;
+    background: #CB662F;
+    padding-bottom: 3px;
+
+    li {
+      margin: 2px 0;
+
+      a {
+        padding: 7px 6px;
+        background: #CB662F;
+
+        &:hover {
+          background: #ED793B;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    background: #CB662F;
+
+    a {
+      background: #CB662F;
+
+      span {
+        background: #CB662F;
+      }
+    }
+  }
+}
+
+.nav > li#userBar.active {
+  border-left: 0 solid #CB662F;
+  background: #CB662F;
+
+  a {
+    background: #CB662F;
+  }
+
+  span {
+    background: #CB662F;
+
+    .fa:before {
+      content: "\f106";
+    }
+  }
+}
+
+.navbar-form-custom {
+    width: 300px;
+}

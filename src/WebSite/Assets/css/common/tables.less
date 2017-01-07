@@ -1,0 +1,109 @@
+﻿.dataTables_wrapper {
+  td {
+    cursor: pointer;
+  }
+}
+
+table.dataTable td.select-radiobutton {
+  position: relative;
+}
+
+table.dataTable td.select-radiobutton:before, table.dataTable td.select-radiobutton:after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -o-transform: translateX(-50%) translateY(-50%);
+}
+
+table.dataTable td.select-radiobutton:before {
+  content: '\25EF';
+}
+
+table.dataTable tr.selected th.selected td.select-radiobutton:after {
+  content: '\26AB';
+  font-size: 7px;
+}
+
+.table .input-group {
+  width: 100%;
+}
+
+.modal-form-table--custom {
+  .btn-default {
+    background: transparent;
+  }
+}
+
+div.dataTables_processing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+  margin-top: -26px;
+  text-align: center;
+  padding: 1em 0;
+}
+
+.dataTables_filter {
+  display: none;
+}
+
+input.table-column-filter-id {
+  min-width: 68px;
+  width: 68px !important;
+}
+
+input.table-column-filter {
+  min-width: 100px;
+}
+
+th.table-id {
+  width: 48px !important;
+}
+
+.pagination > .disabled > a,
+.pagination > .disabled > a:focus,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > span,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > span:hover {
+  display: none;
+}
+
+th.select-checkbox {
+  position: relative;
+}
+
+th.select-checkbox:before {
+  content: ' ';
+  margin-left: -5px;
+  margin-top: 10px;
+  border: 1px solid black;
+  border-radius: 3px;
+  display: block;
+  width: 12px;
+  height: 12px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+}
+
+th.select-checkbox.selected:after {
+  content: '\2714';
+  margin-top: 4px;
+  margin-left: -3px;
+  text-align: center;
+  text-shadow: 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
+  display: block;
+  width: 12px;
+  color: red;
+  height: 12px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+}

@@ -8,7 +8,21 @@
   <title>@ViewBag.Title</title>
 
   <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/bootstrap.min.css")">
-  <link rel="stylesheet" href="@Url.Content("~/Content/css/site.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/dataTables/datatables.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/dataTables/select/select.dataTables.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/ICheck/custom.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/select2/select2.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/fullcalendar/fullcalendar.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/jsTree/style.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/datepicker/datepicker.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/chosen/chosen.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/daterangepicker/daterangepicker-bs3.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/clockpicker/clockpicker.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/plugins/jasny/jasny-bootstrap.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/animate.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/Inspinia/style.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/fonts/font-awesome/css/font-awesome.min.css")">
+  <link rel="stylesheet" href="@Url.Content("~/Content/css/Site.css")">
 
   <script src="@Url.Content("~/Content/js/modernizr-2.6.2.js")"></script>
   <script src="@Url.Content("~/Content/jQuery/jquery-3.1.1.min.js")"></script>
@@ -17,29 +31,63 @@
   <script src="@Url.Content("~/Content/jQuery/jquery.validate.unobtrusive.min.js")"></script>
   <script src="@Url.Content("~/Content/jQuery/jquery.unobtrusive-ajax.min.js")"></script>
   <script src="@Url.Content("~/Content/Bootstrap/js/bootstrap.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/fullcalendar/moment.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/fullcalendar/fullcalendar.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/jsTree/jstree.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/chosen/chosen.jquery.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/daterangepicker/daterangepicker.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/clockpicker/clockpicker.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/jasny/jasny-bootstrap.min.js")"></script>
 </head>
-<body>
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        @Html.ActionLink("Главная", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav"></ul>
+<body class="fixed-sidebar fixed-nav">
+
+  <div id="wrapper">
+    <!-- Navigation -->
+    @Html.Partial("_SideMenu")
+    <!-- End Navigation -->
+    <!-- Top Navbar -->
+    @Html.Partial("_Header")
+
+    <!-- Page wraper -->
+    <div id="page-wrapper" class="gray-bg">
+      @RenderBody()
+    </div>
+    <!-- End page wrapper-->
+  </div>
+
+  <script type="text/tmpl" id="popup-tmpl">
+    <div id="popup" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header modal-header--custom">
+            <button type="button" class="close pull-right" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            </button>
+            <h2 class="col-md-12 modal-headding">${Заголовок диалога}</h2>
+          </div>
+          <div class="modal-body">${Контент диалога}</div>
+          <div class="modal-footer no-borders"></div>
+        </div>
       </div>
     </div>
-  </div>
+  </script>
 
-  <div class="container body-content">
-    @RenderBody()
-  </div>
-
-  <script src="@Url.Content("~/Content/js/site.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/metisMenu/metisMenu.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/pace/pace.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/metisMenu/metisMenu.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/slimScroll/jquery.slimscroll.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/dataTables/datatables.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/dataTables/select/dataTables.select.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/dataTables/dataTables.buttons.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/dataTables/jszip.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/dataTables/buttons.html5.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/ICheck/icheck.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/select2/select2.full.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/typeahead/bootstrap3-typeahead.min.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/js/inspinia.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/datepicker/bootstrap-datepicker.js")"></script>
+  <script src="@Url.Content("~/Content/Inspinia/plugins/datepicker/locales/bootstrap-datepicker.ru.js")"></script>
+  <script src="@Url.Content("~/Content/js/Site.js")"></script>
   @RenderSection("scripts", required: false)
   @* Scripts from partials *@
   @Html.RenderScripts()
