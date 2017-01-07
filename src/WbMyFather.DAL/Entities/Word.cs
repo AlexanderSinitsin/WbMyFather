@@ -16,7 +16,7 @@ namespace WbMyFather.DAL.Entities
 
         public string Name { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<WordBook> WordBooks { get; set; }
 
         public DateTime? Deleted { get; set; }
     }

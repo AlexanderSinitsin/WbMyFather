@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using WbMyFather.DTO.Models.Base;
 
-namespace WbMyFather.DTO.Models
+namespace WbMyFather.DTO.Models.Requests
 {
-    public class WordDto : IKeyableDto<int>
+    public class WordRequest
     {
         public int Id { get; set; }
-
-        public DateTime DateCreate { get; set; }
 
         public string Name { get; set; }
 

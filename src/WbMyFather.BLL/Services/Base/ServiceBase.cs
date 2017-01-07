@@ -12,6 +12,8 @@ using Common.Logging;
 using EntityFramework.Extensions;
 using WbMyFather.DAL.Model.Base;
 using WbMyFather.DAL;
+using WbMyFather.DTO;
+using WbMyFather.DTO.Models.Requests;
 
 namespace WbMyFather.BLL.Services.Base
 {
@@ -96,7 +98,7 @@ namespace WbMyFather.BLL.Services.Base
         /// <param name="searchQuery"></param>
         /// <param name="project">Использовать проекцию данных в DTO</param>
         /// <returns></returns>
-        /*protected async Task<PagedListDto<TDto>> GetPaged<TDto>(GetSortedFilteredPaging param, Expression<Func<TEntity, bool>> searchQuery, bool project = true)
+        protected async Task<PagedListDto<TDto>> GetPaged<TDto>(GetSortedFilteredPaging param, Expression<Func<TEntity, bool>> searchQuery, bool project = true)
         {
             try
             {
@@ -137,7 +139,7 @@ namespace WbMyFather.BLL.Services.Base
                 return null;
             }
 
-        }*/
+        }
 
         /// <summary>
         /// Удаление одной сущности
@@ -192,6 +194,12 @@ namespace WbMyFather.BLL.Services.Base
             var addedEntity = Repository.Add(newEntity);
             await Uow.SaveChangesAsync();
             return addedEntity.Id;
+        }
+
+        protected async Task Create(IEnumerable<TEntity> newEntities)
+        {
+            Repository.AddRange(newEntities);
+            await Uow.SaveChangesAsync();
         }
 
         protected int GetPageCount(int pageSize, int totalCount)

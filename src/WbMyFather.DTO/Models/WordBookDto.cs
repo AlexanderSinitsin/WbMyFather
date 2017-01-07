@@ -13,6 +13,9 @@ namespace WbMyFather.DTO.Models
         public int WordId { get; set; }
         public WordDto Word { get; set; }
 
+        public int BookId { get; set; }
+        public BookDto Book { get; set; }
+
         public IEnumerable<PageDto> Pages { get; set; }
     }
 }

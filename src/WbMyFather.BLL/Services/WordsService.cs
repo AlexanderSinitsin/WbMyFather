@@ -13,23 +13,31 @@ using WbMyFather.BLL.Services.Base;
 using WbMyFather.BLL.Services.Interfaces;
 using WbMyFather.DAL;
 using WbMyFather.DAL.Entities;
+using WbMyFather.DTO;
+using WbMyFather.DTO.Models;
+using WbMyFather.DTO.Models.Requests;
 
 namespace WbMyFather.BLL.Services
 {
     public class WordsService : ServiceBase<Word>, IWordsService
     {
-        public WordsService(IUnitOfWork uoW, IRepository<Word> repository, IMapper mapper, ILog logger) 
-            : base(uoW, repository, mapper, logger) { }
+        private readonly IRepository<WordBook> _wordBookRepository;
+
+        public WordsService(IUnitOfWork uoW, IRepository<Word> repository, IMapper mapper, ILog logger, IRepository<WordBook> wordBookRepository)
+            : base(uoW, repository, mapper, logger)
+        {
+            _wordBookRepository = wordBookRepository;
+        }
 
         public async Task<IEnumerable<TDto>> GetAll<TDto>()
         {
             return await Get<TDto>(null, sortBy: "Name");
         }
 
-        /*public async Task<PagedListDto<TDto>> GetAllPaged<TDto>(GetSortedFilteredPaging param, int? userId)
+        public async Task<PagedListDto<TDto>> GetAllPaged<TDto>(GetSortedFilteredPaging param)
         {
             return await GetPaged<TDto>(param, null);
-        }*/
+        }
 
         public async Task<TDto> GetById<TDto>(int id)
         {
@@ -46,29 +54,36 @@ namespace WbMyFather.BLL.Services
             await Delete(ids);
         }
 
-        /*public async Task<int> Create(WordRequest request)
+        public async Task<int> Create(WordRequest request)
         {
-            var obj = new Word
+            var word = new Word
             {
                 DateCreate = DateTime.UtcNow,
-                Name = request.Name
+                Name = request.Name,
+                WordBooks = request.WordBooks?.Select(w => new WordBook
+                {
+                    BookId = w.BookId,
+                    Pages = w.Pages?.Select(p => new Page
+                    {
+                        Number = p.Number,
+                        Lines = p.Lines?.Select(l => new Line
+                        {
+                            Number = l.Number,
+                            Up = l.Up
+                        }).ToList()
+                    }).ToList()
+                }).ToList()
             };
 
-            return await Create(obj);
+            return await Create(word);
         }
 
         public async Task Update(WordRequest request)
         {
             try
             {
-                var query = Repository.Where(e => e.Id == request.Id);
-
-                var ent = await query.SingleOrDefaultAsync();
-                if (ent == null) throw new EntityNotFoundException();
-
-                if (ent.Name != request.Name) { ent.Name = request.Name; }
-
-                Repository.Update(ent);
+                var word = await Repository.Where(l => l.Id == request.Id).SingleOrDefaultAsync();
+                UpdateWordBooks(word, request.WordBooks);
                 await Uow.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
@@ -76,6 +91,51 @@ namespace WbMyFather.BLL.Services
                 Logger.Error($"Ошибка обновления данных подрядчика. Id: {request.Id}, entity: {JsonConvert.SerializeObject(request)}", ex);
                 throw;
             }
-        }*/
+        }
+
+
+        #region [Private]
+        private void UpdateWordBooks(Word word, IEnumerable<WordBookDto> wordBooks)
+        {
+            var wordBookDtos = wordBooks as IList<WordBookDto> ?? wordBooks.ToList();
+            //add/edit
+            foreach (var wordBookDto in wordBookDtos)
+            {
+                var wb = word.WordBooks.SingleOrDefault(t => t.BookId == wordBookDto.BookId);
+
+                if (wb != null)
+                {
+                    wb.BookId = wordBookDto.BookId;
+                    wb.Pages = wordBookDto.Pages?.Select(p => new Page
+                    {
+                        Number = p.Number,
+                        Lines = p.Lines?.Select(l => new Line
+                        {
+                            Number = l.Number,
+                            Up = l.Up
+                        }).ToList()
+                    }).ToList();
+                    continue;
+                }
+                word.WordBooks.Add(new WordBook
+                {
+                    BookId = wordBookDto.BookId,
+                    Pages = wordBookDto.Pages?.Select(p => new Page
+                    {
+                        Number = p.Number,
+                        Lines = p.Lines?.Select(l => new Line
+                        {
+                            Number = l.Number,
+                            Up = l.Up
+                        }).ToList()
+                    }).ToList()
+                });
+            }
+            //delete
+            foreach (var localityRoad in word.WordBooks.Where(t => wordBookDtos.All(dto => dto.BookId != t.BookId)).ToList())
+                _wordBookRepository.Remove(localityRoad);
+        }
+
+        #endregion
     }
 }

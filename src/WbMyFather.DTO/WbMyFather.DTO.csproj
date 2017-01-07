@@ -44,6 +44,9 @@
     <Compile Include="Models\BookDto.cs" />
     <Compile Include="Models\LineDto.cs" />
     <Compile Include="Models\PageDto.cs" />
+    <Compile Include="Models\Requests\FilterRequest.cs" />
+    <Compile Include="Models\Requests\GetSortedFilteredPaging.cs" />
+    <Compile Include="Models\Requests\WordRequest.cs" />
     <Compile Include="Models\WordBookDto.cs" />
     <Compile Include="Models\WordDto.cs" />
     <Compile Include="PagedListDto.cs" />
