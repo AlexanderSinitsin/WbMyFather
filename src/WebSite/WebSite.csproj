@@ -231,6 +231,9 @@
     <Compile Include="Mvc\Helpers\JsHelper.cs" />
     <Compile Include="Mvc\Helpers\MenuHelper.cs" />
     <Compile Include="Mvc\Helpers\TableHelper.cs" />
+    <Compile Include="Mvc\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Mvc\ModelBinders\DictionaryStringStringModelBinder.cs" />
+    <Compile Include="Mvc\ModelBinders\DoubleModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Startup.cs" />

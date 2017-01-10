@@ -9,7 +9,7 @@ namespace WebSite.Models.Shared.Tables.Requests
             Draw = draw;
 
             var columnsList = new List<Column>();
-            for (   var i = 0; i < columns.Count / 4; i++)
+            for (   var i = 0; i < columns.Count / 6; i++)
             {
                 var column = new Column
                 {
