@@ -93,6 +93,10 @@
     <Compile Include="Migrations\201701061914311_CreateWordBook.Designer.cs">
       <DependentUpon>201701061914311_CreateWordBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701101757286_BookWord.cs" />
+    <Compile Include="Migrations\201701101757286_BookWord.Designer.cs">
+      <DependentUpon>201701101757286_BookWord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Base\IDeletedEntity.cs" />
     <Compile Include="Model\Base\IDictionaryConcurrency.cs" />
@@ -136,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701061914311_CreateWordBook.resx">
       <DependentUpon>201701061914311_CreateWordBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701101757286_BookWord.resx">
+      <DependentUpon>201701101757286_BookWord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
