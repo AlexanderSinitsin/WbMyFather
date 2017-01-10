@@ -115,12 +115,8 @@
         if (checkedRows.contains(row1.id())) {
           row1.select();
         }
-        if (data.RowColor) {
-          $(row).addClass('expired');
-        }
       }
     };
-
     for (var i = 0; i < columns.length; ++i) {
       options.columnDefs.push({
         name: columns[i].Name,
