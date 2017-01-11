@@ -14,9 +14,28 @@
           </div>
         </div>
         <div class="ibox-content">
-          
+          @{ Html.RenderAction("Index", "BookTable");}
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  "use strict";
+
+  function show(id) {
+    console.log(id);
+    //window.Book.show({ id: id });
+  }
+
+  function addBook(id) {
+    console.log(id);
+    //window.Book.add();
+  }
+
+  function deleteSelectedBooks(ids, table) {
+    console.log(ids, table);
+    //window.Book.del({ ids: ids, table: table });
+  }
+</script>

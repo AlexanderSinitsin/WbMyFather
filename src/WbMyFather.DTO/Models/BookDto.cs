@@ -17,5 +17,7 @@ namespace WbMyFather.DTO.Models
         public string Publication { get; set; }
 
         public string Reference { get; set; }
+
+        public IEnumerable<WordBookDto> WordBooks { get; set; }
     }
 }

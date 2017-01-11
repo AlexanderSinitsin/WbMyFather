@@ -7,6 +7,7 @@ using WbMyFather.DTO;
 using WbMyFather.DTO.Models;
 using WebSite.Models;
 using WebSite.Models.Shared;
+using WebSite.ViewModels.Book;
 using WebSite.ViewModels.Word;
 
 namespace WebSite.Mapping
@@ -25,6 +26,19 @@ namespace WebSite.Mapping
                 .ForMember(x => x.Books, d => d.MapFrom(p =>
                     //Названия книг
                     string.Join("; ", p.WordBooks.Select(wb => wb.Book.Name + " " +
+                        //Страницы
+                        string.Join(", ", wb.Pages.Select(pg =>
+                            //Строки
+                            pg.Number + " " + string.Join(" ", pg.Lines.Select(l =>
+                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
+                            ))
+                        ))
+                    ))
+                 ));
+            CreateMap<BookDto, BookListItemViewModel>()
+                .ForMember(x => x.Words, d => d.MapFrom(p =>
+                    //Названия книг
+                    string.Join("; ", p.WordBooks.Select(wb => wb.Word.Name + " " +
                         //Страницы
                         string.Join(", ", wb.Pages.Select(pg =>
                             //Строки
