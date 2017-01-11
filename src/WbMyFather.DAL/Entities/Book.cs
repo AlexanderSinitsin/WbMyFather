@@ -14,7 +14,7 @@ namespace WbMyFather.DAL.Entities
 
         public string Name { get; set; }
 
-        public virtual ICollection<Word> Words { get; set; }
+        public virtual ICollection<WordBook> WordBooks { get; set; }
 
         public string CityOfPublication { get; set; }
 
