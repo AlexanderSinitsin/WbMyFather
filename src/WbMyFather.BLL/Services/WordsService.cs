@@ -83,6 +83,8 @@ namespace WbMyFather.BLL.Services
             try
             {
                 var word = await Repository.Where(l => l.Id == request.Id).SingleOrDefaultAsync();
+                if(word.Name != request.Name) { word.Name = request.Name; }
+
                 UpdateWordBooks(word, request.WordBooks);
                 await Uow.SaveChangesAsync();
             }
