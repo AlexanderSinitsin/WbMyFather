@@ -26,8 +26,7 @@ namespace WebSite.Controllers
         protected override async Task<PagedList<WordListItemViewModel>> GetModels(GetSortedFilteredPaging pagingRequest, IEnumerable<Column> columns)
         {
             var data = await _wordsService.GetAllPaged<WordDto>(pagingRequest);
-            var map = _mapper.Map<PagedList<WordListItemViewModel>>(data);
-            return map;
+            return _mapper.Map<PagedList<WordListItemViewModel>>(data);
         }
 
         protected override string OnClickFunction => "show";

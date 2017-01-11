@@ -20,29 +20,20 @@ namespace WebSite.Mapping
             CreateMap<BookDto, Book>();
             CreateMap<LineDto, Line>();
             CreateMap<PageDto, Page>();
-            CreateMap<WordBookDto, WordBook>()
-                .ForMember(x => x.Books, d => d.MapFrom(p => new List<Book> {
-                    new Book {
-                        Id =p.Book.Id,
-                        Name=p.Book.Name,
-                        CityOfPublication=p.Book.CityOfPublication,
-                        DateOfPublication=p.Book.DateOfPublication,
-                        Publication=p.Book.Publication,
-                        Reference=p.Book.Reference
-                    }
-                }));
+            CreateMap<WordBookDto, WordBook>();
             CreateMap<WordDto, WordListItemViewModel>()
                 .ForMember(x => x.Books, d => d.MapFrom(p =>
-                    string.Join(", ", p.WordBooks.Select(wb => wb.Book.Name))
-                ))
-                .ForMember(x => x.Pages, d => d.MapFrom(p =>
-                    string.Join(", ", p.WordBooks.Select(wb =>
-                        string.Join("; ", wb.Pages.Select(pg =>
-                            pg.Number + " " + string.Join(": ", pg.Lines.Select(l =>
-                                l.Up ? "^" + l.Number : "_" + l.Number))
+                    //Названия книг
+                    string.Join("; ", p.WordBooks.Select(wb => wb.Book.Name + " " +
+                        //Страницы
+                        string.Join(", ", wb.Pages.Select(pg =>
+                            //Строки
+                            pg.Number + " " + string.Join(" ", pg.Lines.Select(l =>
+                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
                             ))
-                         ))
-                     ));
+                        ))
+                    ))
+                 ));
         }
     }
 }

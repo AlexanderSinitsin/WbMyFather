@@ -13,7 +13,7 @@ namespace WebSite.Models
 
         public int BookId { get; set; }
 
-        public IEnumerable<Book> Books { get; set; }
+        public Book Book { get; set; }
 
         public IEnumerable<Page> Pages { get; set; }
     }
