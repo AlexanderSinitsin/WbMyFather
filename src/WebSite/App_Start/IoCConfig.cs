@@ -49,6 +49,7 @@ namespace WebSite
             builder.RegisterType<UnitOfWorkBase>().As<IUnitOfWork>();
             builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>();
             builder.RegisterType<WordsService>().As<IWordsService>();
+            builder.RegisterType<BooksService>().As<IBooksService>();
         }
     }
 }

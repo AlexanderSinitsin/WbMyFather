@@ -86,6 +86,8 @@
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
     <Compile Include="IUnitOfWorkFactory.cs" />
     <Compile Include="Services\Base\ServiceBase.cs" />
+    <Compile Include="Services\BooksService.cs" />
+    <Compile Include="Services\Interfaces\IBooksService.cs" />
     <Compile Include="Services\Interfaces\IWordsService.cs" />
     <Compile Include="Services\WordsService.cs" />
     <Compile Include="UnitOfWorkFactory.cs" />
