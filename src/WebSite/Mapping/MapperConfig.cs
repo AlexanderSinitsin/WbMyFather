@@ -18,6 +18,7 @@ namespace WebSite.Mapping
         {
             CreateMap(typeof(PagedListDto<>), typeof(PagedList<>));
 
+            CreateMap<ObjectMinDto, ObjectMin>();
             CreateMap<BookDto, Book>();
             CreateMap<LineDto, Line>();
             CreateMap<PageDto, Page>();
@@ -29,6 +30,11 @@ namespace WebSite.Mapping
                         //Страницы
                         string.Join(", ", wb.Pages.Select(pg =>
                             //Строки
+                            pg.DateRecord.HasValue ? pg.DateRecord.Value.ToString("D") :
+                            pg.RowId.HasValue ?
+                            pg.Number + pg.Row.Name + " " + string.Join(" ", pg.Lines.Select(l =>
+                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
+                            )) :
                             pg.Number + " " + string.Join(" ", pg.Lines.Select(l =>
                                 l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
                             ))
@@ -42,6 +48,11 @@ namespace WebSite.Mapping
                         //Страницы
                         string.Join(", ", wb.Pages.Select(pg =>
                             //Строки
+                            pg.DateRecord.HasValue ? pg.DateRecord.Value.ToString("D") :
+                            pg.RowId.HasValue ? 
+                            pg.Number + pg.Row.Name + " " + string.Join(" ", pg.Lines.Select(l =>
+                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
+                            )) :
                             pg.Number + " " + string.Join(" ", pg.Lines.Select(l =>
                                 l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
                             ))

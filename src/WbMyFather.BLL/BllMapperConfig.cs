@@ -18,6 +18,7 @@ namespace WbMyFather.BLL
             CreateMap(typeof(PagedList<>), typeof(PagedListDto<>));
 
             //Мапирование обектов доменной модели на объекты DTO или обекты BLL
+            CreateMap<Row, ObjectMinDto>();
             CreateMap<Line, LineDto>();
             CreateMap<Page, PageDto>();
             CreateMap<Word, WordDto>();

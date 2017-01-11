@@ -208,6 +208,7 @@
     <Compile Include="Mapping\MapperConfig.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Line.cs" />
+    <Compile Include="Models\ObjectMin.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\Shared\PagedList.cs" />
     <Compile Include="Models\Shared\Tables\Attributes\Filters\Base\ColumnFilterAttributeBase.cs" />

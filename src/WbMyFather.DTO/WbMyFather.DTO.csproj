@@ -43,6 +43,7 @@
     <Compile Include="Models\Base\IKeyableDto.cs" />
     <Compile Include="Models\BookDto.cs" />
     <Compile Include="Models\LineDto.cs" />
+    <Compile Include="Models\ObjectMinDto.cs" />
     <Compile Include="Models\PageDto.cs" />
     <Compile Include="Models\Requests\BookRequest.cs" />
     <Compile Include="Models\Requests\FilterRequest.cs" />
