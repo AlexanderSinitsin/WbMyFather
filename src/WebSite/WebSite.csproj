@@ -245,6 +245,7 @@
     <Compile Include="ViewModels\Words\WordListItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\js\app.js" />
     <Content Include="Assets\js\common\extensions\string.js" />
     <Content Include="Assets\js\common\helpers\formsHelper.js" />
     <Content Include="Assets\js\common\helpers\popups.js" />
@@ -252,6 +253,8 @@
     <Content Include="Assets\js\common\helpers\UrlHelper.js" />
     <Content Include="Assets\js\pages\tablesFilters\tablesFilters.js" />
     <Content Include="Assets\js\pages\wordInit.js" />
+    <Content Include="Assets\js\Promise.js" />
+    <Content Include="Assets\js\Route.js" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />

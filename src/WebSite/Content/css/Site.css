@@ -318,9 +318,6 @@ body.canvas-menu .navbar-static-side {
 }
 .modal-headding {
   font-size: 22px;
-  margin: 0 0 25px 0;
-  float: left;
-  width: 100%;
 }
 .modal-form-columns {
   margin: 0 0 40px;
@@ -435,6 +432,11 @@ body.canvas-menu .navbar-static-side {
 }
 .modal-header.modal-header--custom {
   z-index: 3000;
+}
+h2.close {
+  float: left;
+  opacity: .6;
+  text-align: center;
 }
 
 .navbar-default li.nav-header {

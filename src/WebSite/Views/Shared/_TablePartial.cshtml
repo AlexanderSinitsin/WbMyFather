@@ -112,9 +112,9 @@
       createdRow: function(row, data, index) {
         var row1 = table.row(index);
         $('td:first-child',row).text('');
-        /*if (checkedRows.contains(row1.id())) {
+        if (checkedRows.length > 0 && checkedRows.contains(row1.id())) {
           row1.select();
-        }*/
+        }
       }
     };
     for (var i = 0; i < columns.length; ++i) {

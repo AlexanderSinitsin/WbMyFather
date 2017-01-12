@@ -1,3 +1,253 @@
+Promise = function (asyncFunction) {
+
+  var states = {
+    PENDING: 0,
+    FULFILLED: 1,
+    REJECTED: 2
+  };
+
+  this.state = states.PENDING;
+  this.result = null;
+  var self = this;
+
+  this.resolve = function () {
+    self.state = states.FULFILLED;
+    self.result = [].slice.call(arguments, 0);
+
+    if (self.onFulfilled) {
+      self.onFulfilled.apply(self, self.result);
+    }
+  }
+
+  this.reject = function () {
+    self.state = states.REJECTED;
+    self.result = [].slice.call(arguments, 0);
+
+    if (self.onRejected) {
+      self.onRejected.apply(self, self.result);
+    }
+  }
+
+  this.setOnFulfilledHandler = function (onFulfilled) {
+    if (this.state === states.FULFILLED && onFulfilled) {
+      onFulfilled.apply(this, this.result);
+    } else {
+      this.onFulfilled = onFulfilled;
+    }
+  }
+
+  this.setOnRejectedHandler = function (onRejected) {
+    if (this.state === states.REJECTED && onRejected) {
+      onRejected.apply(this, this.result);
+    } else {
+      this.onRejected = onRejected;
+    }
+  }
+
+  try {
+    asyncFunction(this.resolve, this.reject);
+  } catch (ex) {
+    this.reject(ex);
+  }
+
+  return this;
+}
+
+Promise.prototype.then = function (onFulfilled, onRejected) {
+
+  this.setOnFulfilledHandler(onFulfilled);
+  this.setOnRejectedHandler(onRejected);
+  return this;
+};
+
+Promise.prototype.catch = function (onRejected) {
+  this.setOnRejectedHandler(onRejected);
+  return this;
+};
+
+var Route = (function () {
+
+  function Route(test, exec) {
+
+    this.routeValues = {};
+
+    if (typeof test === 'string') {
+      this.testFunc = getTestFunction(test);
+    } else {
+      this.testFunc = test;
+    }
+
+    this.execFunc = exec;
+  };
+
+  Route.prototype.test = function (url) {
+    return this.testFunc.call(this, url);
+  };
+
+  Route.prototype.exec = function () {
+    return this.execFunc.call(this);
+  };
+
+  function getTestFunction(urlPattern) {
+    var keys = [];
+
+    var regexpStr = urlPattern
+        .replace(/{(.+?)}/g, function (match, group) {
+          var pair = group.split(':'); // key:type
+          keys.push(pair[0]);
+
+          if (pair[1] === 'Guid') {
+            return '([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})';
+          }
+          return '([^/]+)';
+        })
+        .replace(/\//g, '\\/');
+
+    var regexp = new RegExp(regexpStr, 'i');
+
+    return function (url) {
+      var result = regexp.exec(url);
+      if (result) {
+        for (var i = 1; i < result.length; ++i) {
+          this.routeValues[keys[i - 1]] = result[i];
+        }
+        return true;
+      }
+      return false;
+    }
+  }
+  return Route;
+}());
+
+var App = (function () {
+
+  var app = {};
+
+  // Маршрутизация
+  app.routes = [];
+  app.routes.mapRoute = function (path, exec) {
+    this.push(new Route(path, exec));
+    return this;
+  };
+
+  app.navigate = function (url) {
+    history.pushState({}, null, url);
+    window.onpopstate();
+  };
+
+  window.onpopstate = function () {
+    for (var i = 0; i < app.routes.length; ++i) {
+      if (app.routes[i].test(window.location.href)) {
+        app.routes[i].exec();
+        return;
+      }
+    }
+  };
+
+
+  return app;
+}());
+
+/**
+ * @type {UrlHelper}
+ */
+var Url;
+
+var Book = (function () {
+  var
+    addUrl,
+    showUrl,
+    editUrl,
+    deleteUrl;
+
+  function delete_objects(url, ids, table, options) {
+    if (ids.length > 0) {
+      if (confirm('Вы действительно хотите удалить ' + options.mess + '?')) {
+        $.ajax({
+          url: url,
+          type: 'DELETE',
+          data: {
+            ids: ids
+          }
+        })
+          .success(function (result) {
+            if (result.result) {
+              if (options.modalWindow != null) {
+                options.modalWindow.modal('hide');
+              }
+              table.draw();
+            } else {
+              alert("Ошибка удаления");
+            }
+          })
+          .error(function (xhr, status, statusCode) {
+            console.log(status + ': ' + statusCode);
+          });
+      }
+    }
+  }
+
+  function onSaved() {
+
+  }
+
+  function navigateFromEditWindow(id) {
+    if (id && id > 0) {
+      Popups.showPopup(showUrl.format(id), {}, $('#object-show-content'), $('#object-show'));
+    }
+  }
+
+  function init() {
+    addUrl = Url.action('api/books/add');
+    showUrl = Url.action('api/books/{0}');
+    editUrl = Url.action('api/books/{0}/edit');
+    deleteUrl = Url.action('api/books');
+
+    $(document)
+      .on('keydown.dismiss.bs.modal', '#object-edit', function (e) {
+        if (e.keyCode === 27) {
+          var id = $('#object-save').data('id');
+          navigateFromEditWindow(id);
+          e.preventDefault();
+        }
+      })
+      .on('click', '#object-edit-close', function () {
+        var id = $('#object-save').data('id');
+        navigateFromEditWindow(id);
+      })
+      .on('click', '#object-del', function () {
+        var ids = new Array();
+        ids.push($(this).data('id'));
+        delete_objects(deleteUrl, ids, $('#BookListItemViewModelTable').DataTable(), { modalWindow: $('#object-show'), mess: 'этоу книгу' });
+      })
+    .on('click', '#object-edit-btn', function () {
+      Popups.showPopup(editUrl.format($(this).data('id')), null, $('#object-edit-content'), $("#object-edit"));
+    });
+  }
+
+  function show(option) {
+    Popups.showPopup(showUrl.format(option.id), {}, $('#object-show-content'), $('#object-show'));
+  }
+
+  function del(option) {
+    if (option != null && option.ids.length > 0) {
+      delete_objects(deleteUrl, $.merge([], option.ids), option.table, { mess: option.ids.length + ' записей' });
+    }
+  }
+
+  function add() {
+    Popups.showPopup(addUrl, null, $('#object-edit-content'), $("#object-edit"));
+  }
+
+  return {
+    init: init,
+    show: show,
+    del: del,
+    add: add,
+    OnSaved: onSaved
+  };
+}())
+
 var Word = (function () {
 
   var showUrl,
