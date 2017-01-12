@@ -10,13 +10,13 @@ using WebSite.Controllers.Base;
 
 namespace WebSite.Controllers
 {
-    public class BookController : BaseController
+    public class BooksController : BaseController
     {
         private readonly ILog _log;
         private readonly IMapper _mapper;
         private readonly IWordsService _wordsService;
 
-        public BookController(IWordsService wordsService,
+        public BooksController(IWordsService wordsService,
            IMapper mapper,
            ILog log,
            ILog someService) : base(someService)

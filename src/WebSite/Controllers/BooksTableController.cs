@@ -13,11 +13,11 @@ using WebSite.ViewModels.Book;
 
 namespace WebSite.Controllers
 {
-    public class BookTableController : TableControllerBase<BookListItemViewModel>
+    public class BooksTableController : TableControllerBase<BookListItemViewModel>
     {
         private readonly IMapper _mapper;
         private readonly IBooksService _booksService;
-        public BookTableController(IBooksService booksService, IMapper mapper, ILog log, ILog someService) : base(log, someService)
+        public BooksTableController(IBooksService booksService, IMapper mapper, ILog log, ILog someService) : base(log, someService)
         {
             _booksService = booksService;
             _mapper = mapper;

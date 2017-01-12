@@ -13,11 +13,11 @@ using WebSite.ViewModels.Word;
 
 namespace WebSite.Controllers
 {
-    public class WordTableController : TableControllerBase<WordListItemViewModel>
+    public class WordsTableController : TableControllerBase<WordListItemViewModel>
     {
         private readonly IMapper _mapper;
         private readonly IWordsService _wordsService;
-        public WordTableController(IWordsService wordsService, IMapper mapper, ILog log, ILog someService) : base(log, someService)
+        public WordsTableController(IWordsService wordsService, IMapper mapper, ILog log, ILog someService) : base(log, someService)
         {
             _wordsService = wordsService;
             _mapper = mapper;

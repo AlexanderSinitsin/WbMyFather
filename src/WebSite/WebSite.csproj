@@ -196,10 +196,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\Base\TableControllerBase.cs" />
-    <Compile Include="Controllers\BookController.cs" />
-    <Compile Include="Controllers\BookTableController.cs" />
+    <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\BooksTableController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\WordTableController.cs" />
+    <Compile Include="Controllers\WordsTableController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
