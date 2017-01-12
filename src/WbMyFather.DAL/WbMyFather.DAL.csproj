@@ -67,6 +67,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,7 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTableRepository.cs" />
+    <Compile Include="DataBaseInitializer.cs" />
+    <Compile Include="DbSeed.cs" />
     <Compile Include="Entities\Book.cs" />
+    <Compile Include="Entities\DbDataVersion.cs" />
     <Compile Include="Entities\Line.cs" />
     <Compile Include="Entities\Page.cs" />
     <Compile Include="Entities\Row.cs" />
@@ -101,6 +105,10 @@
     <Compile Include="Migrations\201701121715165_BookAddDateCreateDelete.cs" />
     <Compile Include="Migrations\201701121715165_BookAddDateCreateDelete.Designer.cs">
       <DependentUpon>201701121715165_BookAddDateCreateDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701121752575_CreateDbDataVersions.cs" />
+    <Compile Include="Migrations\201701121752575_CreateDbDataVersions.Designer.cs">
+      <DependentUpon>201701121752575_CreateDbDataVersions.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Base\IDeletedEntity.cs" />
@@ -151,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701121715165_BookAddDateCreateDelete.resx">
       <DependentUpon>201701121715165_BookAddDateCreateDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121752575_CreateDbDataVersions.resx">
+      <DependentUpon>201701121752575_CreateDbDataVersions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

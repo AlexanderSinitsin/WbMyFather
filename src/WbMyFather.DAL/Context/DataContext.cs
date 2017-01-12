@@ -21,6 +21,12 @@ namespace WbMyFather.DAL.Context
         }
 
         public virtual DbSet<Word> Words { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<DbDataVersion> DbDataVersions { get; set; }
+        public virtual DbSet<Line> Lines { get; set; }
+        public virtual DbSet<Page> Pages { get; set; }
+        public virtual DbSet<Row> Rows { get; set; }
+        public virtual DbSet<WordBook> WordBooks { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

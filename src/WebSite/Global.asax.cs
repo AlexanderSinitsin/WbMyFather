@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WbMyFather.BLL;
 using WebSite;
 using WebSite.Mvc.ModelBinders;
 
@@ -16,6 +17,8 @@ namespace WebSite
     {
         protected void Application_Start()
         {
+            BllServiceInitializer.Initialize();
+
             AreaRegistration.RegisterAllAreas();
             IoCConfig.RegisterDependencies();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

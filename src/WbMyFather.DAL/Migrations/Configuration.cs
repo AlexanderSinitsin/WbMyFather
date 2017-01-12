@@ -1,17 +1,18 @@
 namespace WbMyFather.DAL.Migrations
 {
+    using Context;
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Context.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Context.DataContext context)
+        protected override void Seed(DataContext context)
         {
-
+            DbSeed.SeedForProd(context);
         }
     }
 }

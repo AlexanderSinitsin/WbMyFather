@@ -13,7 +13,7 @@ namespace WebSite
         public void Configuration(IAppBuilder app)
         {
             // Инициализация БД
-            BllServiceInitializer.Initialize();
+            //BllServiceInitializer.Initialize();
 
             /*IoCConfig.RegisterDependencies();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
