@@ -56,6 +56,7 @@ namespace WbMyFather.BLL.Services
         {
             var book = new Book
             {
+                DateCreate = DateTime.UtcNow,
                 Name = request.Name,
                 CityOfPublication = request.CityOfPublication,
                 DateOfPublication = request.DateOfPublication,

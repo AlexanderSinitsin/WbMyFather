@@ -1,0 +1,112 @@
+﻿@using WebSite.Mvc.Helpers
+@model WebSite.ViewModels.Books.BookViewModel
+@{
+    var id = Model.IsNew ? 0 : Model.Id;
+}
+
+<div id="modal-dialog-blocking-throbber" class="modal-dialog-throbber-container">
+  <div class="modal-dialog-throbber">
+    <div>
+      <div class="sk-spinner sk-spinner-wave orange">
+        <div class="sk-rect1"></div>
+        <div class="sk-rect2"></div>
+        <div class="sk-rect3"></div>
+        <div class="sk-rect4"></div>
+        <div class="sk-rect5"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@using (Ajax.BeginForm("Save", "Books", null, new AjaxOptions { OnSuccess = "Book.OnSaved();" }, new { @class = "form-horizontal" }))
+{
+    <div class="modal-header modal-header--custom">
+      <button id="object-edit-close" type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      @if (Model.IsNew)
+      {
+          <h2 class="col-md-12 close">Создание Книги</h2>
+      }
+      else
+      {
+          <h2 class="col-md-12 close">Редактирование Книги</h2>
+      }
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        @Html.HiddenFor(t => t.Id)
+        <div class="col-md-12 col-xs-12">
+          <div class="col-md-6 col-xs-12 modal-form-column--left">
+            <table class="table modal-form-table">
+              <tr>
+                <td class="no-borders text-right">
+                  @Html.EditLabelFor(l => l.Name)
+                </td>
+                <td class="no-borders" colspan="2">
+                  @Html.TextBoxFor(t => t.Name, new { @class = "form-control" })
+                </td>
+              </tr>
+              <tr>
+                <td class="no-borders text-right">
+                  @Html.EditLabelFor(l => l.Reference)
+                </td>
+                <td class="no-borders text-right">
+                  @Html.TextBoxFor(t => t.Reference, new { @class = "form-control" })
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-6 col-xs-12 modal-form-column--right">
+            <table class="table modal-form-table">
+              <tr>
+                <td class="no-borders text-right">
+                  @Html.EditLabelFor(l => l.Publication)
+                </td>
+                <td class="no-borders text-right">
+                  @Html.TextBoxFor(t => t.Publication, new { @class = "form-control" })
+                </td>
+              </tr>
+              <tr>
+                <td class="no-borders text-right">
+                  @Html.EditLabelFor(l => l.CityOfPublication)
+                </td>
+                <td class="no-borders text-right">
+                  @Html.TextBoxFor(t => t.CityOfPublication, new { @class = "form-control" })
+                </td>
+              </tr>
+              <tr>
+                <td class="no-borders text-right">
+                  @Html.EditLabelFor(l => l.DateOfPublication)
+                </td>
+                <td class="no-borders text-right">
+                  @Html.TextBoxFor(t => t.DateOfPublication, new { @class = "form-control" })
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer no-borders">
+      <div class="row no-margins">
+        <div class="col-md-12">
+          <button id="object-edit-close" class="btn btn-danger pull-right m-l-md" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Отмена</button>
+          <button class="btn btn-primary pull-right" id="object-save" data-id="@id" type="submit"><i class="fa fa-check"></i> Сохранить</button>
+        </div>
+      </div>
+    </div>
+}
+<script>
+  'use strict';
+
+  $.validator.unobtrusive.parse($('form'));
+
+  $(document).ready(function () {
+    $('.date').datepicker({
+      language: 'ru',
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      toggleActive: true,
+      autoclose: true
+    });
+  });
+</script>

@@ -1,0 +1,98 @@
+﻿@using WebSite.Mvc.Helpers
+@model WebSite.ViewModels.Books.BookViewModel
+
+<form class="form-horizontal">
+  <div class="modal-header modal-header--custom">
+    <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h2 class="col-md-12 close">@title</h2>
+    <div class="row buttons-header">
+      <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 m-b-md">
+        @if (User.IsInRole((int)Smik.WebSite.Enums.UserRoles.Admin))
+        {
+            <a class="btn btn-default m-r-xs" id="object-edit-btn" data-id="@Model.Id" data-dismiss="modal"><i class="fa fa-pencil"></i></a>
+            <a class="btn btn-default m-r-xs" id="object-del" data-id="@Model.Id" data-name="@title" data-dismiss="modal"><i class="fa fa-trash"></i></a>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-12 modal-form-column--left">
+          <table class="table table-striped table-bordered modal-form-table">
+            <tbody>
+              <tr>
+                <td class="text-right font-bold">
+                  @Html.EditLabelFor(l => l.Id)
+                </td>
+                <td colspan="2">
+                  <label class="control-label--custom input--fs12">@Model.Id</label>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right font-bold">
+                  @Html.EditLabelFor(l => l.DateCreate)
+                </td>
+                <td colspan="2">
+                  <label class="control-label--custom input--fs12">@Model.DateCreate</label>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right font-bold">
+                  @Html.EditLabelFor(l => l.Name)
+                </td>
+                @if (string.IsNullOrEmpty(Model.Reference))
+            {
+                    <td colspan="2">
+                      <label class="control-label--custom">@Model.Name</label>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                      <label class="control-label--custom">@Model.Name</label>
+                    </td>
+                    <td class="modal-form-table__cell--btn">
+                      <a class="btn btn-default pull-right no-borders" href="@Model.Reference">
+                        <i class="fa fa-external-link"></i>
+                      </a>
+                    </td>
+                }
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6 col-xs-12 modal-form-column--right">
+          <table class="table table-striped table-bordered modal-form-table">
+            <tr>
+              <td class="text-right font-bold">
+                @Html.EditLabelFor(l => l.Publication)
+              </td>
+              <td>
+                <label class="control-label--custom">@Model.Publication</label>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right font-bold">
+                @Html.EditLabelFor(l => l.CityOfPublication)
+              </td>
+              <td>
+                <label class="control-label--custom">@Model.CityOfPublication</label>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right font-bold">
+                @Html.EditLabelFor(l => l.DateOfPublication)
+              </td>
+              <td>
+                <label class="control-label--custom">@Model.DateOfPublication</label>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer no-borders"></div>
+</form>

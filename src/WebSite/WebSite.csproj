@@ -231,6 +231,7 @@
     <Compile Include="Models\Shared\Tables\TableModel.cs" />
     <Compile Include="Models\WordBook.cs" />
     <Compile Include="Mvc\Helpers\JsHelper.cs" />
+    <Compile Include="Mvc\Helpers\LabelForHelper.cs" />
     <Compile Include="Mvc\Helpers\MenuHelper.cs" />
     <Compile Include="Mvc\Helpers\TableHelper.cs" />
     <Compile Include="Mvc\ModelBinders\DecimalModelBinder.cs" />
@@ -418,6 +419,8 @@
     <Content Include="Views\Shared\_AccessDeniedPartial.cshtml" />
     <Content Include="Views\Shared\AccessDenied.cshtml" />
     <Content Include="Views\Shared\_TablePartial.cshtml" />
+    <Content Include="Views\Books\_Book.cshtml" />
+    <Content Include="Views\Books\_BookEdit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

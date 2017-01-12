@@ -10,7 +10,7 @@ namespace WebSite.ViewModels.Books
     public class BookListItemViewModel
     {
         [Sortable]
-        [Display(Name = "ID"), Hidden]
+        [Display(Name = "ID")]
         public int Id { get; set; }
 
         [StringContainsFilter("Name")]
