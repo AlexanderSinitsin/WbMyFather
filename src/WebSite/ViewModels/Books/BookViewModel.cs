@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WebSite.ViewModels.Book
+namespace WebSite.ViewModels.Books
 {
     public class BookViewModel
     {

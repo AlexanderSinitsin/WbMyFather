@@ -9,7 +9,7 @@ using WebSite.Controllers.Base;
 using WebSite.Models.Shared;
 using WebSite.Models.Shared.Tables;
 using WebSite.Models.Shared.Tables.Requests;
-using WebSite.ViewModels.Book;
+using WebSite.ViewModels.Books;
 
 namespace WebSite.Controllers
 {

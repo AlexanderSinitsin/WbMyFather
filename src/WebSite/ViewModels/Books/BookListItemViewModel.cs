@@ -5,10 +5,12 @@ using WebSite.Models;
 using WebSite.Models.Shared.Tables.Attributes;
 using WebSite.Models.Shared.Tables.Attributes.Filters;
 
-namespace WebSite.ViewModels.Book
+namespace WebSite.ViewModels.Books
 {
     public class BookListItemViewModel
     {
+        [Sortable]
+        [Display(Name = "ID"), Hidden]
         public int Id { get; set; }
 
         [StringContainsFilter("Name")]

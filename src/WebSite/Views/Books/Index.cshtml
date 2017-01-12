@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="ibox-content">
-          @{ Html.RenderAction("Index", "BookTable");}
+          @{ Html.RenderAction("Index", "BooksTable");}
         </div>
       </div>
     </div>
@@ -26,16 +26,16 @@
 
   function show(id) {
     console.log(id);
-    //window.Book.show({ id: id });
+    Book.show({ id: id });
   }
 
   function addBook(id) {
     console.log(id);
-    //window.Book.add();
+    Book.add(id);
   }
 
   function deleteSelectedBooks(ids, table) {
     console.log(ids, table);
-    //window.Book.del({ ids: ids, table: table });
+    Book.del({ ids: ids, table: table });
   }
 </script>

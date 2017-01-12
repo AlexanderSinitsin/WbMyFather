@@ -239,9 +239,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\Book\BookListItemViewModel.cs" />
-    <Compile Include="ViewModels\Book\BookViewModel.cs" />
-    <Compile Include="ViewModels\Word\WordListItemViewModel.cs" />
+    <Compile Include="ViewModels\Books\BookListItemViewModel.cs" />
+    <Compile Include="ViewModels\Books\BookViewModel.cs" />
+    <Compile Include="ViewModels\Words\WordListItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\js\common\extensions\string.js" />
@@ -414,14 +414,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_SideMenu.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
-    <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Shared\_AccessDeniedPartial.cshtml" />
     <Content Include="Views\Shared\AccessDenied.cshtml" />
     <Content Include="Views\Shared\_TablePartial.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\BookTable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\js\site.js.map" />
     <None Include="Project_Readme.html" />

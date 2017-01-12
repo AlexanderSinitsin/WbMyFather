@@ -7,8 +7,8 @@ using WbMyFather.DTO;
 using WbMyFather.DTO.Models;
 using WebSite.Models;
 using WebSite.Models.Shared;
-using WebSite.ViewModels.Book;
-using WebSite.ViewModels.Word;
+using WebSite.ViewModels.Books;
+using WebSite.ViewModels.Words;
 
 namespace WebSite.Mapping
 {

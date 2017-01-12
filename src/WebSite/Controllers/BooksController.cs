@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using WbMyFather.BLL.Services.Interfaces;
 using WebSite.Controllers.Base;
+using WebSite.ViewModels.Books;
 
 namespace WebSite.Controllers
 {
@@ -14,14 +15,14 @@ namespace WebSite.Controllers
     {
         private readonly ILog _log;
         private readonly IMapper _mapper;
-        private readonly IWordsService _wordsService;
+        private readonly IBooksService _booksService;
 
-        public BooksController(IWordsService wordsService,
+        public BooksController(IBooksService booksService,
            IMapper mapper,
            ILog log,
            ILog someService) : base(someService)
         {
-            _wordsService = wordsService;
+            _booksService = booksService;
             _mapper = mapper;
             _log = log;
         }

@@ -5,7 +5,7 @@ using WebSite.Models;
 using WebSite.Models.Shared.Tables.Attributes;
 using WebSite.Models.Shared.Tables.Attributes.Filters;
 
-namespace WebSite.ViewModels.Word
+namespace WebSite.ViewModels.Words
 {
     public class WordListItemViewModel
     {
