@@ -251,6 +251,7 @@
     <Content Include="Assets\js\common\helpers\popups.js" />
     <Content Include="Assets\js\common\helpers\select2helper.js" />
     <Content Include="Assets\js\common\helpers\UrlHelper.js" />
+    <Content Include="Assets\js\pages\bookInit.js" />
     <Content Include="Assets\js\pages\tablesFilters\tablesFilters.js" />
     <Content Include="Assets\js\pages\wordInit.js" />
     <Content Include="Assets\js\Promise.js" />
