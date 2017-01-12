@@ -8,6 +8,8 @@ namespace WbMyFather.DTO.Models
     {
         public int Id { get; set; }
 
+        public DateTime DateCreate { get; set; }
+
         public string Name { get; set; }
 
         public string CityOfPublication { get; set; }
@@ -19,5 +21,7 @@ namespace WbMyFather.DTO.Models
         public string Reference { get; set; }
 
         public IEnumerable<WordBookDto> WordBooks { get; set; }
+
+        public DateTime? Deleted { get; set; }
     }
 }

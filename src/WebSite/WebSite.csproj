@@ -240,6 +240,7 @@
     <Compile Include="SessionManager.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Book\BookListItemViewModel.cs" />
+    <Compile Include="ViewModels\Book\BookViewModel.cs" />
     <Compile Include="ViewModels\Word\WordListItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

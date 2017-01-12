@@ -11,6 +11,8 @@ namespace WebSite.Models
 
         public string Name { get; set; }
 
+        public DateTime DateCreate { get; set; }
+
         public string CityOfPublication { get; set; }
 
         public DateTime? DateOfPublication { get; set; }

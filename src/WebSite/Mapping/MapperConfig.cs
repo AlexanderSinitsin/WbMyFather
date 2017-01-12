@@ -59,6 +59,7 @@ namespace WebSite.Mapping
                         ))
                     ))
                  ));
+            CreateMap<BookDto, BookViewModel>();
         }
     }
 }
