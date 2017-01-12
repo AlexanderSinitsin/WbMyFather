@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201701111905007_AddRow_PageEdit.Designer.cs">
       <DependentUpon>201701111905007_AddRow_PageEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701121715165_BookAddDateCreateDelete.cs" />
+    <Compile Include="Migrations\201701121715165_BookAddDateCreateDelete.Designer.cs">
+      <DependentUpon>201701121715165_BookAddDateCreateDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Base\IDeletedEntity.cs" />
     <Compile Include="Model\Base\IDictionaryConcurrency.cs" />
@@ -144,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701111905007_AddRow_PageEdit.resx">
       <DependentUpon>201701111905007_AddRow_PageEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121715165_BookAddDateCreateDelete.resx">
+      <DependentUpon>201701121715165_BookAddDateCreateDelete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

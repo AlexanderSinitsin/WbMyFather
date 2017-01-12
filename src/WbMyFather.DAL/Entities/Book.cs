@@ -12,6 +12,8 @@ namespace WbMyFather.DAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        public DateTime DateCreate { get; set; }
+
         public string Name { get; set; }
 
         public virtual ICollection<WordBook> WordBooks { get; set; }
@@ -23,5 +25,7 @@ namespace WbMyFather.DAL.Entities
         public string Publication { get; set; }
 
         public string Reference { get; set; }
+
+        public DateTime? Deleted { get; set; }
     }
 }
