@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Models\Base\IKeyableDto.cs" />
     <Compile Include="Models\BookDto.cs" />
+    <Compile Include="Models\BookEasyDto.cs" />
     <Compile Include="Models\LineDto.cs" />
     <Compile Include="Models\ObjectMinDto.cs" />
     <Compile Include="Models\PageDto.cs" />

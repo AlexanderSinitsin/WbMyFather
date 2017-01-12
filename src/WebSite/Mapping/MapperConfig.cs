@@ -20,6 +20,7 @@ namespace WebSite.Mapping
 
             CreateMap<ObjectMinDto, ObjectMin>();
             CreateMap<BookDto, Book>();
+            CreateMap<BookEasyDto, Book>();
             CreateMap<LineDto, Line>();
             CreateMap<PageDto, Page>();
             CreateMap<WordBookDto, WordBook>();
@@ -60,6 +61,7 @@ namespace WebSite.Mapping
                     ))
                  ));
             CreateMap<BookDto, BookViewModel>();
+            CreateMap<BookEasyDto, BookViewModel>();
         }
     }
 }
