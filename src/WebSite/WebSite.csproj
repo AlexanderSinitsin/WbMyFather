@@ -198,7 +198,7 @@
     <Compile Include="Controllers\Base\TableControllerBase.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\BooksTableController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\WordsController.cs" />
     <Compile Include="Controllers\WordsTableController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -242,7 +242,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Books\BookListItemViewModel.cs" />
     <Compile Include="ViewModels\Books\BookViewModel.cs" />
+    <Compile Include="ViewModels\Words\WordBookViewModel.cs" />
     <Compile Include="ViewModels\Words\WordListItemViewModel.cs" />
+    <Compile Include="ViewModels\Words\WordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\js\app.js" />
@@ -417,7 +419,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Words\Index.cshtml" />
     <Content Include="Views\Shared\_SideMenu.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
@@ -426,6 +428,8 @@
     <Content Include="Views\Shared\_TablePartial.cshtml" />
     <Content Include="Views\Books\_Book.cshtml" />
     <Content Include="Views\Books\_BookEdit.cshtml" />
+    <Content Include="Views\Words\_WordEdit.cshtml" />
+    <Content Include="Views\Words\_Word.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
