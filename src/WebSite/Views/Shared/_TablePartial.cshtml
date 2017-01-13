@@ -149,6 +149,7 @@
       .on('select', function(event, api, type, index) {
         if(api && index){
           var rowId = api.row(index).id();
+
           if (!checkedRows.contains(rowId)) {
             checkedRows.push(rowId);
           }
@@ -212,25 +213,6 @@
       var isVisible = $checkbox.is(':checked');
 
       table.column(columnName + ':name').visible(isVisible);
-
-      setColumnVisibility(columnName, isVisible)
-        .then(function() {
-
-        });
     });
-
-
-    /**
-     * Отправляет данные о смены видимости на сервер
-     * @@param {string} columnName Название колонки
-     * @@param {boolean} isVisible Если true, то колонка видима
-     */
-    function setColumnVisibility(columnName, isVisible) {
-      return $.post('@Url.Action("SetColumnVisibility")', {
-        tableName: $table.attr('id'),
-        columnName: columnName,
-        isVisible: isVisible
-      });
-    };
   });
 </script>

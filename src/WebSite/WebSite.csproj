@@ -246,7 +246,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\js\app.js" />
-    <Content Include="Assets\js\common\extensions\string.js" />
+    <Content Include="Assets\js\common\extensions\ArrayExtensions.js" />
+    <Content Include="Assets\js\common\extensions\StringExtensions.js" />
     <Content Include="Assets\js\common\helpers\formsHelper.js" />
     <Content Include="Assets\js\common\helpers\popups.js" />
     <Content Include="Assets\js\common\helpers\select2helper.js" />
