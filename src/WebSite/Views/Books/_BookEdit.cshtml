@@ -18,7 +18,7 @@
   </div>
 </div>
 
-@using (Ajax.BeginForm("Save", "Books", null, new AjaxOptions { OnSuccess = "Book.OnSaved();" }, new { @class = "form-horizontal" }))
+@using (Ajax.BeginForm("Save", "Books", null, new AjaxOptions { OnSuccess = "Book.OnSaved(data,status,xhr);" }, new { @class = "form-horizontal" }))
 {
     <div class="modal-header modal-header--custom">
       <button id="object-edit-close" type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

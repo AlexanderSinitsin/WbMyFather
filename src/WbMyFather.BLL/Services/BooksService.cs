@@ -12,7 +12,6 @@ using WbMyFather.BLL.Services.Interfaces;
 using WbMyFather.DAL;
 using WbMyFather.DAL.Entities;
 using WbMyFather.DTO;
-using WbMyFather.DTO.Models;
 using WbMyFather.DTO.Models.Requests;
 
 namespace WbMyFather.BLL.Services
@@ -39,17 +38,17 @@ namespace WbMyFather.BLL.Services
 
         public async Task<TDto> GetById<TDto>(int id)
         {
-            return await GetById<TDto>(id);
+            return await base.GetById<TDto>(id);
         }
 
         public async Task Delete(int id)
         {
-            await Delete(id);
+            await base.Delete(id);
         }
 
         public async Task Delete(IEnumerable<int> ids)
         {
-            await Delete(ids);
+            await base.Delete(ids);
         }
 
         public async Task<int> Create(BookRequest request)

@@ -3,7 +3,8 @@
     addUrl,
     showUrl,
     editUrl,
-    deleteUrl;
+    deleteUrl,
+    tableId;
 
   function delete_objects(url, ids, table, options) {
     if (ids.length > 0) {
@@ -32,8 +33,12 @@
     }
   }
 
-  function onSaved() {
-
+  function onSaved(data, status, xhr) {
+    if (data.id) {
+      $('.modal').modal('hide');
+      navigateFromEditWindow(data.id);
+    }
+    $(tableId).DataTable().ajax.reload(null, false);
   }
 
   function navigateFromEditWindow(id) {
@@ -47,6 +52,7 @@
     showUrl = Url.action('api/books/{0}');
     editUrl = Url.action('api/books/{0}/edit');
     deleteUrl = Url.action('api/books');
+    tableId = '#BookListItemViewModelTable';
 
     $(document)
       .on('keydown.dismiss.bs.modal', '#object-edit', function (e) {
@@ -63,7 +69,7 @@
       .on('click', '#object-del', function () {
         var ids = new Array();
         ids.push($(this).data('id'));
-        delete_objects(deleteUrl, ids, $('#BookListItemViewModelTable').DataTable(), { modalWindow: $('#object-show'), mess: 'этоу книгу' });
+        delete_objects(deleteUrl, ids, $(tableId).DataTable(), { modalWindow: $('#object-show'), mess: 'этоу книгу' });
       })
     .on('click', '#object-edit-btn', function () {
       Popups.showPopup(editUrl.format($(this).data('id')), null, $('#object-edit-content'), $("#object-edit"));

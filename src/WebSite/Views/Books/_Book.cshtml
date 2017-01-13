@@ -4,14 +4,11 @@
 <form class="form-horizontal">
   <div class="modal-header modal-header--custom">
     <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <h2 class="col-md-12 close">@title</h2>
+    <h2 class="col-md-12 close">@Model.Name</h2>
     <div class="row buttons-header">
       <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 m-b-md">
-        @if (User.IsInRole((int)Smik.WebSite.Enums.UserRoles.Admin))
-        {
-            <a class="btn btn-default m-r-xs" id="object-edit-btn" data-id="@Model.Id" data-dismiss="modal"><i class="fa fa-pencil"></i></a>
-            <a class="btn btn-default m-r-xs" id="object-del" data-id="@Model.Id" data-name="@title" data-dismiss="modal"><i class="fa fa-trash"></i></a>
-        }
+        <a class="btn btn-default m-r-xs" id="object-edit-btn" data-id="@Model.Id" data-dismiss="modal"><i class="fa fa-pencil"></i></a>
+        <a class="btn btn-default m-r-xs" id="object-del" data-id="@Model.Id" data-name="@Model.Name" data-dismiss="modal"><i class="fa fa-trash"></i></a>
       </div>
     </div>
   </div>
@@ -42,7 +39,7 @@
                   @Html.EditLabelFor(l => l.Name)
                 </td>
                 @if (string.IsNullOrEmpty(Model.Reference))
-            {
+                {
                     <td colspan="2">
                       <label class="control-label--custom">@Model.Name</label>
                     </td>

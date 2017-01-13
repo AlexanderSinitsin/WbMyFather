@@ -114,7 +114,7 @@ namespace WebSite.Controllers
                 return PartialView("_BookEdit", model);
             }
 
-            return JavaScript($"$('.modal').modal('hide');Popups.showPopup(Url.action('api/books/{model.Id}'), null, $('#object-show-content'), $('#object-show'));$('#BookListItemViewModelTable').DataTable().ajax.reload(null, false);");
+            return Json(new { id = model.Id });
         }
     }
 }
