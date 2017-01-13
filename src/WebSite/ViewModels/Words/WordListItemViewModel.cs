@@ -9,6 +9,8 @@ namespace WebSite.ViewModels.Words
 {
     public class WordListItemViewModel
     {
+        [Sortable]
+        [Display(Name = "ID")]
         public int Id { get; set; }
 
         public DateTime DateCreate { get; set; }

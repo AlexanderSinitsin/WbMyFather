@@ -87,7 +87,7 @@ namespace WbMyFather.BLL.Services
             }
             catch (DbUpdateException ex)
             {
-                Logger.Error($"Ошибка обновления данных подрядчика. Id: {request.Id}, entity: {JsonConvert.SerializeObject(request)}", ex);
+                Logger.Error($"Ошибка обновления данных книги. Id: {request.Id}, entity: {JsonConvert.SerializeObject(request)}", ex);
                 throw;
             }
         }

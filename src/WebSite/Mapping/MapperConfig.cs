@@ -24,6 +24,18 @@ namespace WebSite.Mapping
             CreateMap<LineDto, Line>();
             CreateMap<PageDto, Page>();
             CreateMap<WordBookDto, WordBook>();
+            CreateMap<WordBookDto, WordBookViewModel>()
+                .ForMember(x => x.Directions, d => d.MapFrom(wb => wb.Pages.Select(pg =>
+                        //Строки
+                        pg.DateRecord.HasValue ? pg.DateRecord.Value.ToString("D") :
+                        pg.RowId.HasValue ?
+                        pg.Number + pg.Row.Name + " " + string.Join(" ", pg.Lines.Select(l =>
+                            l.Up ? "&darr;" + l.Number : "&uarr;" + l.Number
+                          )) :
+                          pg.Number + " " + string.Join(" ", pg.Lines.Select(l =>
+                            l.Up ? "&darr;" + l.Number : "&uarr;" + l.Number
+                          ))
+                        )));
             CreateMap<WordDto, WordListItemViewModel>()
                 .ForMember(x => x.Books, d => d.MapFrom(p =>
                     //Названия книг
@@ -34,14 +46,16 @@ namespace WebSite.Mapping
                             pg.DateRecord.HasValue ? pg.DateRecord.Value.ToString("D") :
                             pg.RowId.HasValue ?
                             pg.Number + pg.Row.Name + " " + string.Join(" ", pg.Lines.Select(l =>
-                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
+                                l.Up ? "&darr;" + l.Number : "&uarr;" + l.Number
                             )) :
                             pg.Number + " " + string.Join(" ", pg.Lines.Select(l =>
-                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
+                                l.Up ? "&darr;" + l.Number : "&uarr;" + l.Number
                             ))
                         ))
                     ))
                  ));
+            CreateMap<WordDto, WordViewModel>()
+                .ForMember(x => x.BookList, d => d.Ignore());
             CreateMap<BookDto, BookListItemViewModel>()
                 .ForMember(x => x.Words, d => d.MapFrom(p =>
                     //Названия книг
@@ -52,10 +66,10 @@ namespace WebSite.Mapping
                             pg.DateRecord.HasValue ? pg.DateRecord.Value.ToString("D") :
                             pg.RowId.HasValue ? 
                             pg.Number + pg.Row.Name + " " + string.Join(" ", pg.Lines.Select(l =>
-                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
+                                l.Up ? "&darr;" + l.Number : "&uarr;" + l.Number
                             )) :
                             pg.Number + " " + string.Join(" ", pg.Lines.Select(l =>
-                                l.Up ? "&uarr;" + l.Number : "&darr;" + l.Number
+                                l.Up ? "&darr;" + l.Number : "&uarr;" + l.Number
                             ))
                         ))
                     ))

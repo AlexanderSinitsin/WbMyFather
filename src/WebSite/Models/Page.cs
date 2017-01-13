@@ -9,10 +9,15 @@ namespace WebSite.Models
     {
         public int Id { get; set; }
 
-        public int Number { get; set; }
+        public int? Number { get; set; }
+
+        public DateTime? DateRecord { get; set; }
 
         public int WordBookId { get; set; }
 
         public IEnumerable<Line> Lines { get; set; }
+
+        public int? RowId { get; set; }
+        public ObjectMin Row { get; set; }
     }
 }

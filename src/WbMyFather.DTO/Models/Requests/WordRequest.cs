@@ -10,7 +10,5 @@ namespace WbMyFather.DTO.Models.Requests
         public string Name { get; set; }
 
         public IEnumerable<WordBookDto> WordBooks { get; set; }
-
-        public DateTime? Deleted { get; set; }
     }
 }

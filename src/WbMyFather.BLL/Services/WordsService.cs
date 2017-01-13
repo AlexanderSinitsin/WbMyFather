@@ -41,17 +41,17 @@ namespace WbMyFather.BLL.Services
 
         public async Task<TDto> GetById<TDto>(int id)
         {
-            return await GetById<TDto>(id);
+            return await base.GetById<TDto>(id);
         }
 
         public async Task Delete(int id)
         {
-            await Delete(id);
+            await base.Delete(id);
         }
 
         public async Task Delete(IEnumerable<int> ids)
         {
-            await Delete(ids);
+            await base.Delete(ids);
         }
 
         public async Task<int> Create(WordRequest request)
@@ -90,7 +90,7 @@ namespace WbMyFather.BLL.Services
             }
             catch (DbUpdateException ex)
             {
-                Logger.Error($"Ошибка обновления данных подрядчика. Id: {request.Id}, entity: {JsonConvert.SerializeObject(request)}", ex);
+                Logger.Error($"Ошибка обновления данных слова. Id: {request.Id}, entity: {JsonConvert.SerializeObject(request)}", ex);
                 throw;
             }
         }
