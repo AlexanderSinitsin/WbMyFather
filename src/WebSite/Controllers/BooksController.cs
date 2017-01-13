@@ -108,7 +108,7 @@ namespace WebSite.Controllers
             }
             catch (Exception exception)
             {
-                _log.Error($"Ошибка при сохранении контракта {JsonConvert.SerializeObject(request)}", exception);
+                _log.Error($"Ошибка при сохранении книги {JsonConvert.SerializeObject(request)}", exception);
                 ModelState.AddModelError("", "Ошибка при сохранении в базу данных");
 
                 return PartialView("_BookEdit", model);

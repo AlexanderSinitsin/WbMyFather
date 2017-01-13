@@ -12,7 +12,7 @@ namespace WebSite.ViewModels.Books
 
         public bool IsNew => !Id.HasValue || Id.Value == 0;
 
-        [Display(Name = "Создана")]
+        [Display(Name = "Дата создания")]
         public DateTime? DateCreate { get; set; }
 
         [Display(Name = "Книга")]
