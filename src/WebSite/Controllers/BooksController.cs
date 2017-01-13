@@ -46,8 +46,8 @@ namespace WebSite.Controllers
             return PartialView("_Book", model);
         }
 
-        [HttpDelete]
-        [Route("api/books")]
+        [HttpPost]
+        [Route("api/books/del")]
         public async Task<ActionResult> Delete(int[] ids)
         {
             try

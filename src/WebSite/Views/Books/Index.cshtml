@@ -48,7 +48,6 @@
   }
 
   function deleteSelectedBooks(ids, table) {
-    console.log(ids, table);
-    Book.del({ ids: ids, table: table });
+    Book.del($.merge([], ids), ids.length + ' записей');
   }
 </script>

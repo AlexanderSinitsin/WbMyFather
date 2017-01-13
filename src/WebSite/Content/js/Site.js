@@ -161,29 +161,29 @@ var Book = (function () {
     deleteUrl,
     tableId;
 
-  function delete_objects(url, ids, table, options) {
+  function deleteObjects(ids, mess) {
     if (ids.length > 0) {
-      if (confirm('Вы действительно хотите удалить ' + options.mess + '?')) {
+      if (confirm('Вы действительно хотите удалить ' + mess + '?')) {
         $.ajax({
-          url: url,
-          type: 'DELETE',
+          url: deleteUrl,
+          type: 'POST',
+          dataType: 'json',
           data: {
             ids: ids
           }
         })
-          .success(function (result) {
-            if (result.result) {
-              if (options.modalWindow != null) {
-                options.modalWindow.modal('hide');
-              }
-              table.draw();
-            } else {
-              alert("Ошибка удаления");
+        .success(function (result) {
+          if (result.result) {
+            if (tableId != null) {
+              $(tableId).DataTable().draw();
             }
-          })
-          .error(function (xhr, status, statusCode) {
-            console.log(status + ': ' + statusCode);
-          });
+          } else {
+            alert("Ошибка удаления");
+          }
+        })
+        .error(function (xhr, status, statusCode) {
+          console.log(status + ': ' + statusCode, xhr);
+        });
       }
     }
   }
@@ -206,7 +206,7 @@ var Book = (function () {
     addUrl = Url.action('api/books/add');
     showUrl = Url.action('api/books/{0}');
     editUrl = Url.action('api/books/{0}/edit');
-    deleteUrl = Url.action('api/books');
+    deleteUrl = Url.action('api/books/del');
     tableId = '#BookListItemViewModelTable';
 
     $(document)
@@ -222,9 +222,7 @@ var Book = (function () {
         navigateFromEditWindow(id);
       })
       .on('click', '#object-del', function () {
-        var ids = new Array();
-        ids.push($(this).data('id'));
-        delete_objects(deleteUrl, ids, $(tableId).DataTable(), { modalWindow: $('#object-show'), mess: 'этоу книгу' });
+        deleteObjects([$(this).data('id')], 'эту книгу');
       })
     .on('click', '#object-edit-btn', function () {
       Popups.showPopup(editUrl.format($(this).data('id')), null, $('#object-edit-content'), $("#object-edit"));
@@ -235,12 +233,6 @@ var Book = (function () {
     Popups.showPopup(showUrl.format(option.id), {}, $('#object-show-content'), $('#object-show'));
   }
 
-  function del(option) {
-    if (option != null && option.ids.length > 0) {
-      delete_objects(deleteUrl, $.merge([], option.ids), option.table, { mess: option.ids.length + ' записей' });
-    }
-  }
-
   function add() {
     Popups.showPopup(addUrl, null, $('#object-edit-content'), $("#object-edit"));
   }
@@ -248,7 +240,7 @@ var Book = (function () {
   return {
     init: init,
     show: show,
-    del: del,
+    del: deleteObjects,
     add: add,
     OnSaved: onSaved
   };
@@ -378,11 +370,31 @@ var Word = (function () {
   };
 }())
 
+Array.prototype.contains = function (value) {
+  return this.indexOf(value) > -1;
+};
+
+Array.prototype.removeValue = function (value) {
+  var index = this.indexOf(value);
+  if (index > -1) {
+    this.splice(index, 1);
+  }
+};
+
 String.prototype.format = function () {
   var args = arguments;
   return this.replace(/{([\d|\w]+)}/g, function (match, key) {
     var value = isNaN(key) ? args[0][key] : args[key];
     return typeof value != 'undefined' ? value : match;
+  });
+};
+
+String.format = function (format) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return format.replace(/{(\d+)}/g, function (match, number) {
+    return typeof args[number] != 'undefined'
+      ? args[number]
+      : match;
   });
 };
 
