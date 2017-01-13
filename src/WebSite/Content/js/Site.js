@@ -248,12 +248,11 @@ var Book = (function () {
 
 var Word = (function () {
 
-  var showUrl,
+  var addUrl,
+    showUrl,
     editUrl,
-    tableSelector;
-
-  var containerHeight = $(window).height() * 0.65;
-  var selectedRoadCoordinates = [];
+    deleteUrl,
+    tableId;
 
   function initTable(option) {
 
@@ -280,93 +279,88 @@ var Word = (function () {
     }
   }
 
-  function deleteObject(id) {
-    if (confirm('Вы действительно хотите удалить этот объект?')) {
-      $.ajax({
-        url: deleteObjectUrl,
-        type: 'POST',
-        dataType: 'json',
-        data: {
-          id: id
-        }
-      })
-        .success(function (result) {
-          if (result.result) {
-            if (tableSelector != null) {
-              $(tableSelector).DataTable().draw();
-            }
-          } else {
-            alert("Ошибка удаления");
-          }
-        })
-        .error(function (xhr, status, statusCode) {
-          console.log(status + ': ' + statusCode);
-        });
-    }
-  };
-
-  function deleteObjects(ids) {
+  function deleteObjects(ids, mess) {
     if (ids.length > 0) {
-      if (confirm('Вы действительно хотите удалить ' + ids.length + ' записей?')) {
+      if (confirm('Вы действительно хотите удалить ' + mess + '?')) {
         $.ajax({
-          url: deleteObjectsUrl,
+          url: deleteUrl,
           type: 'POST',
           dataType: 'json',
           data: {
             ids: ids
           }
         })
-          .success(function (result) {
-            if (result.result) {
-              if (tableSelector != null) {
-                $(tableSelector).DataTable().draw();
-              }
-            } else {
-              alert("Ошибка удаления");
+        .success(function (result) {
+          if (result.result) {
+            if (tableId != null) {
+              $(tableId).DataTable().draw();
             }
-          })
-          .error(function (xhr, status, statusCode) {
-            console.log(status + ': ' + statusCode);
-          });
+          } else {
+            alert("Ошибка удаления");
+          }
+        })
+        .error(function (xhr, status, statusCode) {
+          console.log(status + ': ' + statusCode, xhr);
+        });
       }
     }
-  };
+  }
+
+  function onSaved(data, status, xhr) {
+    if (data.id) {
+      $('.modal').modal('hide');
+      navigateFromEditWindow(data.id);
+    }
+    $(tableId).DataTable().ajax.reload(null, false);
+  }
+
+  function navigateFromEditWindow(id) {
+    if (id && id > 0) {
+      Popups.showPopup(showUrl.format(id), {}, $('#object-show-content'), $('#object-show'));
+    }
+  }
 
   function init(option) {
-    showUrl = option.showUrl;
-    editUrl = option.editUrl;
-    tableSelector = option.tableSelector;
-
-    $('#object-edit').on('hidden.bs.modal', function () {
-      var id = $('#object-save').data('id');
-
-      var isAdd = $('#object-save').data('is-add');
-      if (isAdd === 'False') {
-        Popups.showPopup(showUrl.replace('0', id), {}, $('#object-show-content'), $('#object-show'), function () { });
-      }
-    });
+    addUrl = Url.action('api/words/add');
+    showUrl = Url.action('api/words/{0}');
+    editUrl = Url.action('api/words/{0}/edit');
+    deleteUrl = Url.action('api/words/del');
+    tableId = '#WordListItemViewModelTable';
 
     $(document)
+      .on('keydown.dismiss.bs.modal', '#object-edit', function (e) {
+        if (e.keyCode === 27) {
+          var id = $('#object-save').data('id');
+          navigateFromEditWindow(id);
+          e.preventDefault();
+        }
+      })
+      .on('click', '#object-edit-close', function () {
+        var id = $('#object-save').data('id');
+        navigateFromEditWindow(id);
+      })
+      .on('click', '#object-del', function () {
+        deleteObjects([$(this).data('id')], 'это слово');
+      })
     .on('click', '#object-edit-btn', function () {
-      Popups.showPopup(editUrl.replace('0', $(this).data('id')), {}, $('#object-edit-content'), $('#object-edit'), function () {
-
-      });
+      Popups.showPopup(editUrl.format($(this).data('id')), null, $('#object-edit-content'), $("#object-edit"));
     });
   }
 
   function show(option) {
-    Popups.showPopup(showUrl.replace('0', option.id), {}, $('#object-show-content'), $('#object-show'));
+    Popups.showPopup(showUrl.format(option.id), {}, $('#object-show-content'), $('#object-show'));
   }
 
-  function add(option) {
-
+  function add() {
+    Popups.showPopup(addUrl, null, $('#object-edit-content'), $("#object-edit"));
   }
 
   return {
     init: init,
     show: show,
+    del: deleteObjects,
     add: add,
-    del: deleteObjects
+    OnSaved: onSaved
   };
 }())
 

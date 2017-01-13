@@ -6,7 +6,7 @@ using WbMyFather.DAL.Model.Base;
 
 namespace WbMyFather.DAL.Entities
 {
-    public class Book : IBaseTable<int>
+    public class Book : IBaseTable<int>, IDeletedEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
