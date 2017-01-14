@@ -1,4 +1,5 @@
-﻿@using WebSite.Mvc.Helpers
+﻿@using System.Globalization
+@using WebSite.Mvc.Helpers
 @model WebSite.ViewModels.Books.BookViewModel
 @{
     var id = Model.IsNew ? 0 : Model.Id;
@@ -43,6 +44,7 @@
                 </td>
                 <td class="no-borders" colspan="2">
                   @Html.TextBoxFor(t => t.Name, new { @class = "form-control" })
+                  @Html.ValidationMessageFor(v => v.Name, "", new { @class = "text-danger" })
                 </td>
               </tr>
               <tr>
@@ -77,8 +79,11 @@
                 <td class="no-borders text-right">
                   @Html.EditLabelFor(l => l.DateOfPublication)
                 </td>
-                <td class="no-borders text-right">
-                  @Html.TextBoxFor(t => t.DateOfPublication, new { @class = "form-control" })
+                <td class="no-borders col-md-12">
+                  <div class="input-group date">
+                    @Html.TextBoxFor(t => t.DateOfPublication, string.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", Model.DateOfPublication), new { @class = "form-control" })
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
                 </td>
               </tr>
             </table>
