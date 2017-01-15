@@ -11,6 +11,7 @@ using WbMyFather.BLL.Services.Interfaces;
 using WbMyFather.DTO.Models;
 using WbMyFather.DTO.Models.Requests;
 using WebSite.Controllers.Base;
+using WebSite.Models;
 using WebSite.ViewModels.Words;
 
 namespace WebSite.Controllers
@@ -21,25 +22,33 @@ namespace WebSite.Controllers
         private readonly ILog _log;
         private readonly IMapper _mapper;
         private readonly IWordsService _wordsService;
+        private readonly IBooksService _booksService;
+        private readonly IRowsService _rowsService;
 
         public WordsController(IWordsService wordsService,
+           IBooksService booksService,
+           IRowsService rowsService,
            IMapper mapper,
            ILog log,
            ILog someService) : base(someService)
         {
             _wordsService = wordsService;
+            _booksService = booksService;
+            _rowsService = rowsService;
             _mapper = mapper;
             _log = log;
         }
 
         public ActionResult Index()
         {
+            Session["WordBooks"] = null;
             return View();
         }
 
         [Route("api/words/{id:int}")]
         public async Task<ActionResult> Get(int id)
         {
+            Session["WordBooks"] = null;
             var wordDto = await _wordsService.GetById<WordDto>(id);
             var model = _mapper.Map<WordViewModel>(wordDto);
 
@@ -72,7 +81,8 @@ namespace WebSite.Controllers
                 var wordDto = await _wordsService.GetById<WordDto>(id.Value);
                 model = _mapper.Map<WordViewModel>(wordDto);
             }
-
+            Session["WordBooks"] = model.WordBooks;
+            await getLists(model);
             return PartialView("_WordEdit", model);
         }
 
@@ -80,6 +90,10 @@ namespace WebSite.Controllers
         [Route("api/words")]
         public async Task<ActionResult> Save(WordViewModel model)
         {
+            model.WordBooks = Session["WordBooks"] != null ?
+                (List<WordBookViewModel>)Session["WordBooks"] :
+                new List<WordBookViewModel>();
+            await getLists(model);
             if (!ModelState.IsValid)
             {
                 return PartialView("_WordEdit", model);
@@ -128,6 +142,213 @@ namespace WebSite.Controllers
             }
 
             return Json(new { id = model.Id });
+        }
+
+        [HttpPost]
+        [Route("api/words/edit/book/add")]
+        public ActionResult AddWordBook(SelectedWordBook wordBook)
+        {
+            var wordBooks = Session["WordBooks"] != null ?
+                (List<WordBookViewModel>)Session["WordBooks"] :
+                new List<WordBookViewModel>();
+
+            if (wordBook.SelectedBookId <= 0 && string.IsNullOrEmpty(wordBook.Book))
+            {
+                return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Поле книга не может быть пустым." } });
+            }
+
+            if (!wordBook.Number.HasValue && !wordBook.DateRecord.HasValue)
+            {
+                return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Необходимо указать номер страницы или дату записи." } });
+            }
+
+            if (wordBook.Number.HasValue && !wordBook.LineNumber.HasValue)
+            {
+                return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Номер строки не может быть пустым." } });
+            }
+
+            if (wordBooks.Any(wb => wb.BookId == wordBook.SelectedBookId))
+            {
+                foreach (var wb in wordBooks)
+                {
+                    if (wb.Pages.Any())
+                    {
+                        foreach (var p in wb.Pages)
+                        {
+                            if (p.DateRecord.HasValue && p.DateRecord != wordBook.DateRecord)
+                            {
+                                p.DateRecord = wordBook.DateRecord;
+                            }
+                            else
+                            {
+                                if (p.Lines.Any())
+                                {
+                                    var lines = p.Lines.ToList();
+                                    lines.Add(new Line
+                                    {
+                                        Number = wordBook.Number.Value,
+                                        Up = wordBook.Up
+                                    });
+                                    p.Lines = lines;
+                                }
+                                else
+                                {
+                                    var lines = new List<Line>();
+                                    lines.Add(new Line
+                                    {
+                                        Number = wordBook.Number.Value,
+                                        Up = wordBook.Up
+                                    });
+                                    p.Lines = lines;
+                                }
+                                p.Number = wordBook.Number;
+                                p.RowId = wordBook.SelectedRowId;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        wb.Pages = new List<Page> {
+                            new Page
+                            {
+                                DateRecord = wordBook.DateRecord,
+                    Number = wordBook.Number,
+                    RowId = wordBook.SelectedRowId,
+                    Lines = wordBook.LineNumber.HasValue ?
+                    new List<Line> {
+                        new Line
+                        {
+                        Number = wordBook.LineNumber.Value,
+                        Up = wordBook.Up
+                        }
+                    } :
+                    new List<Line>()
+                            }
+                        };
+                    }
+                }
+            }
+            else
+            {
+                var book = new Book();
+                if (!string.IsNullOrEmpty(wordBook.Book))
+                {
+                    book.Name = wordBook.Book;
+                }
+                wordBooks.Add(new WordBookViewModel
+                {
+                    BookId = wordBook.SelectedBookId,
+                    Book = book,
+                    Pages = new List<Page>
+                {
+                    new Page {
+                        DateRecord = wordBook.DateRecord,
+                    Number = wordBook.Number,
+                    RowId = wordBook.SelectedRowId,
+                    Lines = wordBook.LineNumber.HasValue ?
+                    new List<Line> {
+                        new Line
+                        {
+                        Number = wordBook.LineNumber.Value,
+                        Up = wordBook.Up
+                        }
+                    } :
+                    new List<Line>()
+                    }
+                }
+                });
+            }
+
+            Session["WordBooks"] = wordBooks;
+
+            return Json(new { result = wordBooks });
+        }
+
+        [HttpPost]
+        [Route("api/words/edit/book/delete")]
+        public ActionResult DeleteWordBook(SelectedWordBook wordBook, string row)
+        {
+            var wordBooks = Session["WordBooks"] != null ?
+                (List<WordBookViewModel>)Session["WordBooks"] :
+                new List<WordBookViewModel>();
+
+            if (wordBook.DateRecord.HasValue)
+            {
+                var selectedWordBook = wordBooks.FirstOrDefault(wb => wb.BookId == wordBook.SelectedBookId &&
+                    wb.Pages.Any(p => p.DateRecord == wordBook.DateRecord));
+                var pages = selectedWordBook.Pages.ToList();
+                pages.Remove(pages.FirstOrDefault(p => p.DateRecord == wordBook.DateRecord));
+
+                foreach (var wb in wordBooks)
+                {
+                    if (wb.BookId == selectedWordBook.BookId && wordBooks.Count <= 1)
+                    {
+                        wordBooks.Remove(selectedWordBook);
+                    }
+                    else if (wb.BookId == selectedWordBook.BookId)
+                    {
+                        wb.Pages = pages;
+                    }
+                }
+            }
+            else if (wordBook.Number.HasValue)
+            {
+                var selectedWordBook = wordBooks.FirstOrDefault(wb => wb.BookId == wordBook.SelectedBookId &&
+                    wb.Pages.Any(p => p.Number == wordBook.Number));
+                var pageOnRemove = new Page();
+                var pages = selectedWordBook.Pages.ToList();
+                foreach (var page in selectedWordBook.Pages)
+                {
+                    if (page.Number == wordBook.Number)
+                    {
+                        var lines = page.Lines.ToList();
+                        lines.Remove(lines.FirstOrDefault(l => l.Number == wordBook.LineNumber));
+                        page.Lines = lines;
+                        pageOnRemove = page;
+                    }
+                }
+                if (pages.Count <= 1)
+                {
+                    pages.Remove(pageOnRemove);
+                }
+                foreach (var wb in wordBooks)
+                {
+                    if (wb.BookId == selectedWordBook.BookId && wordBooks.Count <= 1)
+                    {
+                        wordBooks.Remove(selectedWordBook);
+                    }
+                    else if (wb.BookId == selectedWordBook.BookId)
+                    {
+                        wb.Pages = selectedWordBook.Pages;
+                    }
+                }
+            }
+
+
+            Session["WordBooks"] = wordBooks;
+
+            return Json(new { result = row });
+        }
+
+        private async Task getLists(WordViewModel model)
+        {
+            try
+            {
+                var books = _mapper.Map<IEnumerable<ObjectMin>>(await _booksService.GetAll<ObjectMinDto>()).ToList();
+                var rows = _mapper.Map<IEnumerable<ObjectMin>>(await _rowsService.GetAll<ObjectMinDto>()).ToList();
+                books.Add(new ObjectMin());
+                rows.Add(new ObjectMin());
+                model.BookList = books.OrderBy(b=>b.Name);
+                model.RowList = rows.OrderBy(b => b.Name);
+            }
+            catch (Exception ex)
+            {
+                _log.Error($"Ошибка при получении списков", ex);
+                ModelState.AddModelError("", "Ошибка при сохранении в базу данных");
+
+                model.BookList = new List<ObjectMin>();
+                model.RowList = new List<ObjectMin>();
+            }
         }
     }
 }
