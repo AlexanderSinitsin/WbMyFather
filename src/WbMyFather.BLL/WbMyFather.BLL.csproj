@@ -88,7 +88,9 @@
     <Compile Include="Services\Base\ServiceBase.cs" />
     <Compile Include="Services\BooksService.cs" />
     <Compile Include="Services\Interfaces\IBooksService.cs" />
+    <Compile Include="Services\Interfaces\IRowsService.cs" />
     <Compile Include="Services\Interfaces\IWordsService.cs" />
+    <Compile Include="Services\RowsService.cs" />
     <Compile Include="Services\WordsService.cs" />
     <Compile Include="UnitOfWorkFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

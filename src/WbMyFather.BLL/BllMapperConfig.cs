@@ -25,6 +25,8 @@ namespace WbMyFather.BLL
             CreateMap<Book, BookDto>();
             CreateMap<Book, BookEasyDto>();
             CreateMap<WordBook, WordBookDto>();
+            CreateMap<Word, ObjectMinDto>();
+            CreateMap<Book, ObjectMinDto>();
         }
     }
 }

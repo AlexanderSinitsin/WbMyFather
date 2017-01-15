@@ -50,6 +50,7 @@ namespace WebSite
             builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>();
             builder.RegisterType<WordsService>().As<IWordsService>();
             builder.RegisterType<BooksService>().As<IBooksService>();
+            builder.RegisterType<RowsService>().As<IRowsService>();
         }
     }
 }
