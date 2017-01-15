@@ -48,7 +48,7 @@
             </table>
           </div>
           <div class="row p-l-md m-t-md">
-            <table class="table table-striped table-bordered modal-form-table">
+            <table id="wordbooksTable" class="table table-striped table-bordered modal-form-table">
               <thead>
                 <tr>
                   <th class="text-center">Книги</th>
@@ -71,8 +71,18 @@
                       foreach (var page in wordbook.Pages)
                       {
                                 <tr>
-                                  <td class="text-center" rowspan="@(page.Lines?.Count() + 1 ?? 1)">
-                                    @(page.DateRecord.HasValue ? page.DateRecord?.ToString("D") : page.Number + " " + page.Row?.Name)
+                                  <td class="text-center" rowspan="@(page.Lines?.Count() + 1 ?? 1)" colspan="@(page.DateRecord.HasValue ? 2 : 1)">
+                                    <div class="input-group">
+                                      <div class="input-group">
+                                        @(page.DateRecord.HasValue ? page.DateRecord?.ToString("D") : page.Number + " " + page.Row?.Name)
+                                      </div>
+                                      @if (page.DateRecord.HasValue)
+                                      {
+                                          <span class="input-group-btn">
+                                            <a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook"><i class="fa fa-minus"></i></a>
+                                          </span>
+                                      }
+                                    </div>
                                   </td>
                                 </tr>
 
@@ -82,7 +92,12 @@
                           {
                                         <tr>
                                           <td class="text-center">
-                                            @Html.Raw(line.Up ? "<i class='fa fa-long-arrow-down' />" + line.Number : "<i class='fa fa-long-arrow-up' />" + line.Number)
+                                            <div class="input-group">
+                                              @Html.Raw(line.Up ? "<i class='fa fa-long-arrow-down' />" + line.Number : "<i class='fa fa-long-arrow-up' />" + line.Number)
+                                              <span class="input-group-btn">
+                                                <a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook"><i class="fa fa-minus"></i></a>
+                                              </span>
+                                            </div>
                                           </td>
                                         </tr>
                           }
@@ -101,8 +116,36 @@
                       <td class="hidden"></td>
                     </tr>
                 }
+                <tr class="no-borders">
+                  <td class="no-borders">
+                    @Html.DropDownListFor(d => d.SelectedWordBook.SelectedBookId, new SelectList(Model.BookList, "Id", "Name"), new { @class = "form-control" })
+                    @Html.TextBoxFor(t => t.SelectedWordBook.Book, new { @class = "form-control", type = "text", placeholder="Новая книга" })
+                  </td>
+                  <td class="no-borders">
+                    <div class="input-group">
+                      <div class="input-group-btn">
+                        @Html.TextBoxFor(t => t.SelectedWordBook.Number, new { @class = "form-control", type = "Number", placeholder = "Номер страницы" })
+                        @Html.TextBoxFor(t => t.SelectedWordBook.DateRecord, new { @class = "form-control", type = "date", placeholder = "Дата записи" })
+                      </div>
+                      @Html.DropDownListFor(d => d.SelectedWordBook.SelectedRowId, new SelectList(Model.RowList, "Id", "Name"), new { @class = "form-control" })
+                    </div>
+                  </td>
+                  <td class="no-borders">
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        @Html.CheckBoxFor(t => t.SelectedWordBook.Up, new { @class = "control-label--custom" })
+                        <label for="SelectedWordBook_Up" class="control-label--custom label-inline"></label>
+                      </span>
+                      @Html.TextBoxFor(t => t.SelectedWordBook.LineNumber, new { @class = "form-control", type = "Number", placeholder = "Номер строки" })
+                      <span class="input-group-btn">
+                        <a class="pull-right btn btn-sm btn-default no-borders" id="addWordBook"><i class="fa fa-plus"></i></a>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
+            @Html.ValidationMessageFor(v => v.SelectedWordBook.SelectedBookId, "", new { @class = "text-danger" })
           </div>
         </div>
       </div>
@@ -110,7 +153,7 @@
     <div class="modal-footer no-borders">
       <div class="row no-margins">
         <div class="col-md-12">
-          <button id = "object-edit-close" class="btn btn-danger pull-right m-l-md" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Отмена</button>
+          <button id="object-edit-close" class="btn btn-danger pull-right m-l-md" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Отмена</button>
           <button class="btn btn-primary pull-right" id="object-save" data-id="@id" type="submit"><i class="fa fa-check"></i> Сохранить</button>
         </div>
       </div>

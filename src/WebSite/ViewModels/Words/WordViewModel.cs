@@ -22,6 +22,10 @@ namespace WebSite.ViewModels.Words
         [Display(Name = "Книги")]
         public IEnumerable<WordBookViewModel> WordBooks { get; set; }
 
-        public IEnumerable<Book> BookList { get; set; }
+        public IEnumerable<ObjectMin> BookList { get; set; }
+
+        public IEnumerable<ObjectMin> RowList { get; set; }
+
+        public SelectedWordBook SelectedWordBook { get; set; }
     }
 }

@@ -242,6 +242,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Books\BookListItemViewModel.cs" />
     <Compile Include="ViewModels\Books\BookViewModel.cs" />
+    <Compile Include="ViewModels\Words\SelectedWordBook.cs" />
     <Compile Include="ViewModels\Words\WordBookViewModel.cs" />
     <Compile Include="ViewModels\Words\WordListItemViewModel.cs" />
     <Compile Include="ViewModels\Words\WordViewModel.cs" />

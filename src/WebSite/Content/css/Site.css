@@ -122,38 +122,24 @@ input[type="checkbox"] {
 }
 input[type="checkbox"] + .control-label--custom,
 input[type="checkbox"] + input + .control-label--custom {
+  cursor: pointer;
   position: relative;
 }
-input[type="checkbox"] + .control-label--custom:before,
-input[type="checkbox"] + input + .control-label--custom:before {
-  content: "";
-  width: 18px;
-  height: 18px;
-  background: orange;
-  top: 3px;
-  left: -18px;
-  position: absolute;
+input[type="checkbox"] + .control-label--custom:after,
+input[type="checkbox"] + input + .control-label--custom:after {
+  content: "\f175";
   cursor: pointer;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: large;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
 }
 input[type="checkbox"]:checked + .control-label--custom:after,
 input[type="checkbox"]:checked + input + .control-label--custom:after {
-  content: "";
-  width: 10px;
-  height: 6px;
-  background: orange;
-  position: absolute;
-  top: 8px;
-  left: -13px;
-  transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  /* IE 9 */
-  -webkit-transform: rotate(-45deg);
-  /* Safari */
-  -moz-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
-  border-left: 3px solid #ffffff;
-  border-bottom: 3px solid #ffffff;
-  cursor: pointer;
+  content: "\f176";
 }
 .card-body input[type="checkbox"]:checked + input + .control-label--custom:after {
   cursor: default;
@@ -557,6 +543,14 @@ th.select-checkbox.selected:after {
   box-sizing: border-box;
   position: absolute;
   left: 50%;
+}
+#wordbooksTable td:nth-child(3) {
+  min-width: 200px;
+}
+.fa-plus,
+.fa-minus {
+  margin-top: 5.5px;
+  margin-bottom: 6px;
 }
 
 /*# sourceMappingURL=site.css.map */

@@ -39,7 +39,7 @@
                     foreach (var page in wordbook.Pages)
                     {
                           <tr>
-                            <td class="text-center" rowspan="@(page.Lines?.Count() + 1 ?? 1)">
+                            <td class="text-center" rowspan="@(page.Lines?.Count() + 1 ?? 1)" colspan="@(page.DateRecord.HasValue ? 2 : 1)">
                               @(page.DateRecord.HasValue ? page.DateRecord?.ToString("D") : page.Number + " " + page.Row?.Name)
                             </td>
                           </tr>

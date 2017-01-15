@@ -55,7 +55,9 @@ namespace WebSite.Mapping
                     ))
                  ));
             CreateMap<WordDto, WordViewModel>()
-                .ForMember(x => x.BookList, d => d.Ignore());
+                .ForMember(x => x.BookList, d => d.Ignore())
+                .ForMember(x => x.RowList, d => d.Ignore())
+                .ForMember(x => x.SelectedWordBook, d => d.Ignore());
             CreateMap<BookDto, BookListItemViewModel>()
                 .ForMember(x => x.Words, d => d.MapFrom(p =>
                     //Названия книг
@@ -64,7 +66,7 @@ namespace WebSite.Mapping
                         string.Join(", ", wb.Pages.Select(pg =>
                             //Строки
                             pg.DateRecord.HasValue ? pg.DateRecord.Value.ToString("D") :
-                            pg.RowId.HasValue ? 
+                            pg.RowId.HasValue ?
                             pg.Number + pg.Row.Name + " " + string.Join(" ", pg.Lines.Select(l =>
                                 l.Up ? "&darr;" + l.Number : "&uarr;" + l.Number
                             )) :
