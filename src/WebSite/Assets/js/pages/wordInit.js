@@ -103,7 +103,10 @@
         var control = $(this);
         var table = $('#wordbooksTable tbody');
         var inputChell = $('#wordbooksTable tbody tr').last();
-        var first = $('#wordbooksTable tbody tr').first().text().indexOf('Записи отсутствуют')>-1;
+        var first = $('#wordbooksTable tbody tr').first().text().indexOf('Записи отсутствуют') > -1;
+        var books = $('#SelectedWordBook_SelectedBookId option');
+        var rows = $('#SelectedWordBook_SelectedRowId option');
+        console.log(books, rows);
 
         $('#wordbooksTable_processing').attr('style', 'display: block;');
         $.ajax({
@@ -124,22 +127,31 @@
           if (result.result) {
             var addedTr = '';
             $.each(result.result, function (idx, wb) {
-              var rows = 1;
+              var rowsCount = 1;
               var pages = '';
               $.each(wb.Pages, function (idx, pg) {
                 var lines = '';
                 var rowspanLine = pg.Lines.length + 1;
-                rows += (rowspanLine);
+                rowsCount += (rowspanLine);
                 var date;
                 var colspan = 1;
-                var rowName = pg.RowId;
-                if (pg.Row) {
-                  rowName = pg.Row.Name;
+
+                var row = '';
+                if (pg.RowId) {
+                  rows.each(function (idx, rowItem) {
+                    if (rowItem.value == pg.RowId) {
+                      row = rowItem.text;
+                    }
+                  });
+                } else if (wb.Row && wb.Row.Name) {
+                  row = pg.Row.Name;
                 }
-                var number = pg.Number + " " + rowName;
+
+                var number = pg.Number + " " + row;
                 var minus = '';
                 if (pg.DateRecord) {
-                  date = new Date(pg.DateRecord.replace('/Date(-', '').replace(')/', ''));
+                  console.log(pg.DateRecord.replace('/Date(', '').replace(')/', ''));
+                  date = new Date(pg.DateRecord.replace('/Date(', '').replace(')/', ''));
                   colspan = 2;
                   number = date.toString();
                   minus = '<span class="input-group-btn"><a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook"><i class="fa fa-minus"></i></a></span>';
@@ -154,7 +166,17 @@
                 pages += '<tr><td class="text-center" rowspan="' + rowspanLine + '" colspan="' + colspan + ')"> <div class="input-group"><div class="input-group">' + number + ' </div>' + minus + ' </div></tr>' +
                   lines;
               });
-              addedTr += '<tr><td class="text-center" rowspan="' + rows + '">' + wb.Book.Name + ' </td></tr>' + pages;
+              var book = '';
+              if (wb.BookId) {
+                books.each(function (idx, bookItem) {
+                  if (bookItem.value == wb.BookId) {
+                    book = bookItem.text;
+                  }
+                });
+              } else if (wb.Book && wb.Book.Name) {
+                book = wb.Book.Name;
+              }
+              addedTr += '<tr><td class="text-center" rowspan="' + rowsCount + '">' + book + ' </td></tr>' + pages;
             });
 
             $('#wordbooksTable tbody').html(addedTr + '<tr>' + inputChell.html() + '</tr>');
