@@ -63,6 +63,11 @@ namespace WbMyFather.BLL.Services
                 WordBooks = request.WordBooks?.Select(w => new WordBook
                 {
                     BookId = w.BookId,
+                    Book = new Book
+                    {
+                        Name = w.Book?.Name,
+                        DateCreate = DateTime.UtcNow
+                    },
                     Pages = w.Pages?.Select(p => new Page
                     {
                         Number = p.Number,
@@ -106,11 +111,22 @@ namespace WbMyFather.BLL.Services
 
             foreach (var wordBookDto in wordBookDtos)
             {
-                var wb = word.WordBooks.SingleOrDefault(t => t.BookId == wordBookDto.BookId);
+                var wb = word.WordBooks?.SingleOrDefault(t => t.BookId == wordBookDto.BookId);
 
                 if (wb != null)
                 {
-                    wb.BookId = wordBookDto.BookId;
+                    if (!string.IsNullOrEmpty(wordBookDto.Book?.Name))
+                    {
+                        wb.Book = new Book
+                        {
+                            Name = wordBookDto.Book?.Name,
+                            DateCreate = DateTime.UtcNow
+                        };
+                    }
+                    else
+                    {
+                        wb.BookId = wordBookDto.BookId;
+                    }
                     wb.Pages = wordBookDto.Pages?.Select(p => new Page
                     {
                         Id = p.Id,
@@ -128,9 +144,8 @@ namespace WbMyFather.BLL.Services
                 }
                 else
                 {
-                    word.WordBooks.Add(new WordBook
+                    var newWb = new WordBook
                     {
-                        BookId = wordBookDto.BookId,
                         Pages = wordBookDto.Pages?.Select(p => new Page
                         {
                             Number = p.Number,
@@ -142,21 +157,37 @@ namespace WbMyFather.BLL.Services
                                 Up = l.Up
                             }).ToList()
                         }).ToList()
-                    });
-                }
-
-                //delete
-                foreach (var page in wb.Pages.ToList())
-                {
-                    if (wordBookDto.Pages.Any(dto => (dto.Number != page.Number && dto.RowId != page.RowId) || (dto.DateRecord.HasValue && dto.DateRecord != page.DateRecord)))
+                    };
+                    if (!string.IsNullOrEmpty(wordBookDto.Book?.Name))
                     {
-                        wb.Pages.Remove(page);
+                        newWb.Book = new Book
+                        {
+                            Name = wordBookDto.Book?.Name,
+                            DateCreate = DateTime.UtcNow
+                        };
                     }
                     else
                     {
-                        foreach (var line in page.Lines?.Where(l => wordBookDto.Pages.Any(p => p.Lines?.Any(ldto => ldto.Number != l.Number && ldto.Up != l.Up) ?? false)).ToList())
+                        newWb.BookId = wordBookDto.BookId;
+                    }
+                    word.WordBooks.Add(newWb);
+                }
+
+                //delete
+                if (wb != null)
+                {
+                    foreach (var page in wb.Pages.ToList())
+                    {
+                        if (wordBookDto.Pages.Any(dto => (dto.Number != page.Number && dto.RowId != page.RowId) || (dto.DateRecord.HasValue && dto.DateRecord != page.DateRecord)))
                         {
-                            page.Lines.Remove(line);
+                            wb.Pages.Remove(page);
+                        }
+                        else
+                        {
+                            foreach (var line in page.Lines?.Where(l => wordBookDto.Pages.Any(p => p.Lines?.Any(ldto => ldto.Number != l.Number && ldto.Up != l.Up) ?? false)).ToList())
+                            {
+                                page.Lines.Remove(line);
+                            }
                         }
                     }
                 }
