@@ -167,97 +167,37 @@ namespace WebSite.Controllers
                 return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Номер строки не может быть пустым." } });
             }
 
-            if (wordBooks.Any(wb => wb.BookId == wordBook.SelectedBookId))
+            var selectedWordBook = wordBooks.FirstOrDefault(wb => wb.BookId == wordBook.SelectedBookId
+                 && wb.Pages.Any(p => (p.Number == wordBook.Number && p.RowId== wordBook.SelectedRowId) ||
+                 p.DateRecord== wordBook.DateRecord)) ?? 
+                 wordBooks.FirstOrDefault(wb => wb.BookId == wordBook.SelectedBookId) ?? new WordBookViewModel {
+                     BookId = wordBook.SelectedBookId,
+                     Pages = new List<Page>()
+                 };
+            wordBooks.Remove(selectedWordBook);
+            var pages = selectedWordBook.Pages.ToList();
+            var page = pages.FirstOrDefault(p => (p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
+                 (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord)) ?? new Page
+                 {
+                     DateRecord = wordBook.DateRecord,
+                     Number = wordBook.Number,
+                     RowId = wordBook.SelectedRowId,
+                     Lines = new List<Line>()
+                 };
+            pages.Remove(page);
+            var lines = page.Lines.ToList();
+            if(!lines.Any(l => l.Number == wordBook.LineNumber && l.Up == wordBook.Up))
             {
-                foreach (var wb in wordBooks)
+                lines.Add(new Line
                 {
-                    if (wb.Pages.Any())
-                    {
-                        foreach (var p in wb.Pages)
-                        {
-                            if (p.DateRecord.HasValue && p.DateRecord != wordBook.DateRecord)
-                            {
-                                p.DateRecord = wordBook.DateRecord;
-                            }
-                            else
-                            {
-                                if (p.Lines.Any())
-                                {
-                                    var lines = p.Lines.ToList();
-                                    lines.Add(new Line
-                                    {
-                                        Number = wordBook.Number.Value,
-                                        Up = wordBook.Up
-                                    });
-                                    p.Lines = lines;
-                                }
-                                else
-                                {
-                                    var lines = new List<Line>();
-                                    lines.Add(new Line
-                                    {
-                                        Number = wordBook.Number.Value,
-                                        Up = wordBook.Up
-                                    });
-                                    p.Lines = lines;
-                                }
-                                p.Number = wordBook.Number;
-                                p.RowId = wordBook.SelectedRowId;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        wb.Pages = new List<Page> {
-                            new Page
-                            {
-                                DateRecord = wordBook.DateRecord,
-                    Number = wordBook.Number,
-                    RowId = wordBook.SelectedRowId,
-                    Lines = wordBook.LineNumber.HasValue ?
-                    new List<Line> {
-                        new Line
-                        {
-                        Number = wordBook.LineNumber.Value,
-                        Up = wordBook.Up
-                        }
-                    } :
-                    new List<Line>()
-                            }
-                        };
-                    }
-                }
-            }
-            else
-            {
-                var book = new Book();
-                if (!string.IsNullOrEmpty(wordBook.Book))
-                {
-                    book.Name = wordBook.Book;
-                }
-                wordBooks.Add(new WordBookViewModel
-                {
-                    BookId = wordBook.SelectedBookId,
-                    Book = book,
-                    Pages = new List<Page>
-                {
-                    new Page {
-                        DateRecord = wordBook.DateRecord,
-                    Number = wordBook.Number,
-                    RowId = wordBook.SelectedRowId,
-                    Lines = wordBook.LineNumber.HasValue ?
-                    new List<Line> {
-                        new Line
-                        {
-                        Number = wordBook.LineNumber.Value,
-                        Up = wordBook.Up
-                        }
-                    } :
-                    new List<Line>()
-                    }
-                }
+                    Number = wordBook.LineNumber.HasValue ? wordBook.LineNumber.Value : 0,
+                    Up = wordBook.Up
                 });
             }
+            page.Lines = lines;
+            pages.Add(page);
+            selectedWordBook.Pages = pages;
+            wordBooks.Add(selectedWordBook);
 
             Session["WordBooks"] = wordBooks;
 
@@ -338,7 +278,7 @@ namespace WebSite.Controllers
                 var rows = _mapper.Map<IEnumerable<ObjectMin>>(await _rowsService.GetAll<ObjectMinDto>()).ToList();
                 books.Add(new ObjectMin());
                 rows.Add(new ObjectMin());
-                model.BookList = books.OrderBy(b=>b.Name);
+                model.BookList = books.OrderBy(b => b.Name);
                 model.RowList = rows.OrderBy(b => b.Name);
             }
             catch (Exception ex)
