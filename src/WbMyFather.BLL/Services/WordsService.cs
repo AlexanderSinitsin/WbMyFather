@@ -67,6 +67,7 @@ namespace WbMyFather.BLL.Services
                     {
                         Number = p.Number,
                         RowId = p.RowId,
+                        DateRecord = p.DateRecord,
                         Lines = p.Lines?.Select(l => new Line
                         {
                             Number = l.Number,
@@ -84,7 +85,7 @@ namespace WbMyFather.BLL.Services
             try
             {
                 var word = await Repository.Where(l => l.Id == request.Id).SingleOrDefaultAsync();
-                if(word.Name != request.Name) { word.Name = request.Name; }
+                if (word.Name != request.Name) { word.Name = request.Name; }
 
                 UpdateWordBooks(word, request.WordBooks);
                 await Uow.SaveChangesAsync();
@@ -102,6 +103,7 @@ namespace WbMyFather.BLL.Services
         {
             var wordBookDtos = wordBooks as IList<WordBookDto> ?? wordBooks.ToList();
             //add/edit
+
             foreach (var wordBookDto in wordBookDtos)
             {
                 var wb = word.WordBooks.SingleOrDefault(t => t.BookId == wordBookDto.BookId);
@@ -111,34 +113,59 @@ namespace WbMyFather.BLL.Services
                     wb.BookId = wordBookDto.BookId;
                     wb.Pages = wordBookDto.Pages?.Select(p => new Page
                     {
+                        Id = p.Id,
                         Number = p.Number,
-                        RowId = p.RowId,
+                        RowId = p.RowId == 0 ? null : p.RowId,
+                        DateRecord = p.DateRecord,
                         Lines = p.Lines?.Select(l => new Line
                         {
+                            Id = l.Id,
                             Number = l.Number,
                             Up = l.Up
                         }).ToList()
                     }).ToList();
                     continue;
                 }
-                word.WordBooks.Add(new WordBook
+                else
                 {
-                    BookId = wordBookDto.BookId,
-                    Pages = wordBookDto.Pages?.Select(p => new Page
+                    word.WordBooks.Add(new WordBook
                     {
-                        Number = p.Number,
-                        RowId = p.RowId,
-                        Lines = p.Lines?.Select(l => new Line
+                        BookId = wordBookDto.BookId,
+                        Pages = wordBookDto.Pages?.Select(p => new Page
                         {
-                            Number = l.Number,
-                            Up = l.Up
+                            Number = p.Number,
+                            RowId = p.RowId == 0 ? null : p.RowId,
+                            DateRecord = p.DateRecord,
+                            Lines = p.Lines?.Select(l => new Line
+                            {
+                                Number = l.Number,
+                                Up = l.Up
+                            }).ToList()
                         }).ToList()
-                    }).ToList()
-                });
+                    });
+                }
+
+                //delete
+                foreach (var page in wb.Pages.ToList())
+                {
+                    if (wordBookDto.Pages.Any(dto => (dto.Number != page.Number && dto.RowId != page.RowId) || (dto.DateRecord.HasValue && dto.DateRecord != page.DateRecord)))
+                    {
+                        wb.Pages.Remove(page);
+                    }
+                    else
+                    {
+                        foreach (var line in page.Lines?.Where(l => wordBookDto.Pages.Any(p => p.Lines?.Any(ldto => ldto.Number != l.Number && ldto.Up != l.Up) ?? false)).ToList())
+                        {
+                            page.Lines.Remove(line);
+                        }
+                    }
+                }
             }
             //delete
-            foreach (var localityRoad in word.WordBooks.Where(t => wordBookDtos.All(dto => dto.BookId != t.BookId)).ToList())
-                _wordBookRepository.Remove(localityRoad);
+            foreach (var wordBook in word.WordBooks.Where(t => wordBookDtos.All(dto => dto.BookId != t.BookId)).ToList())
+            {
+                _wordBookRepository.Remove(wordBook);
+            }
         }
 
         #endregion

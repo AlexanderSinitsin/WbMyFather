@@ -108,12 +108,14 @@ namespace WebSite.Controllers
                     BookId = wb.BookId,
                     Pages = wb.Pages.Select(p => new PageDto
                     {
+                        Id = p.Id,
                         Number = p.Number,
                         DateRecord = p.DateRecord,
                         RowId = p.RowId,
                         Lines = p.Number.HasValue ?
                             p.Lines.Select(l => new LineDto
                             {
+                                Id = l.Id,
                                 Number = l.Number,
                                 Up = l.Up
                             }) : null
@@ -151,6 +153,8 @@ namespace WebSite.Controllers
             var wordBooks = Session["WordBooks"] != null ?
                 (List<WordBookViewModel>)Session["WordBooks"] :
                 new List<WordBookViewModel>();
+
+            wordBook.SelectedRowId = wordBook.SelectedRowId == 0 ? null : wordBook.SelectedRowId;
 
             if (wordBook.SelectedBookId <= 0 && string.IsNullOrEmpty(wordBook.Book))
             {
