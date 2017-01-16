@@ -14,7 +14,7 @@ namespace WbMyFather.DAL.Entities
 
         public int Number { get; set; }
 
-        public int? PageId { get; set; }
+        public int PageId { get; set; }
         public virtual Page Page { get; set; }
     }
 }

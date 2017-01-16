@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201701121752575_CreateDbDataVersions.Designer.cs">
       <DependentUpon>201701121752575_CreateDbDataVersions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701161822440_CascadeDeleteLines.cs" />
+    <Compile Include="Migrations\201701161822440_CascadeDeleteLines.Designer.cs">
+      <DependentUpon>201701161822440_CascadeDeleteLines.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Base\IDeletedEntity.cs" />
     <Compile Include="Model\Base\IDictionaryConcurrency.cs" />
@@ -162,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701121752575_CreateDbDataVersions.resx">
       <DependentUpon>201701121752575_CreateDbDataVersions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701161822440_CascadeDeleteLines.resx">
+      <DependentUpon>201701161822440_CascadeDeleteLines.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

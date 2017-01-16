@@ -36,6 +36,10 @@ namespace WbMyFather.DAL.Context
                 .HasMany(lo => lo.Pages)
                 .WithRequired(lor => lor.WordBook)
                 .WillCascadeOnDelete();
+            modelBuilder.Entity<Page>()
+               .HasMany(lo => lo.Lines)
+               .WithRequired(lor => lor.Page)
+               .WillCascadeOnDelete();
         }
     }
 }
