@@ -66,6 +66,7 @@ namespace WbMyFather.BLL.Services
                     Pages = w.Pages?.Select(p => new Page
                     {
                         Number = p.Number,
+                        RowId = p.RowId,
                         Lines = p.Lines?.Select(l => new Line
                         {
                             Number = l.Number,
@@ -111,6 +112,7 @@ namespace WbMyFather.BLL.Services
                     wb.Pages = wordBookDto.Pages?.Select(p => new Page
                     {
                         Number = p.Number,
+                        RowId = p.RowId,
                         Lines = p.Lines?.Select(l => new Line
                         {
                             Number = l.Number,
@@ -125,6 +127,7 @@ namespace WbMyFather.BLL.Services
                     Pages = wordBookDto.Pages?.Select(p => new Page
                     {
                         Number = p.Number,
+                        RowId = p.RowId,
                         Lines = p.Lines?.Select(l => new Line
                         {
                             Number = l.Number,
