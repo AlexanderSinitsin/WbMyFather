@@ -176,7 +176,7 @@ namespace WebSite.Controllers
                 return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Номер строки не может быть пустым." } });
             }
 
-            var selectedWordBook = wordBooks.FirstOrDefault(wb => (wb.BookId == wordBook.SelectedBookId || wb.Book?.Name== wordBook.Book)
+            var selectedWordBook = wordBooks.FirstOrDefault(wb => (wb.BookId == wordBook.SelectedBookId || wb.Book?.Name == wordBook.Book)
                  && wb.Pages.Any(p => (p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
                  p.DateRecord == wordBook.DateRecord)) ??
                  wordBooks.FirstOrDefault(wb => wb.BookId == wordBook.SelectedBookId) ?? new WordBookViewModel
@@ -229,14 +229,14 @@ namespace WebSite.Controllers
                 (List<WordBookViewModel>)Session["WordBooks"] :
                 new List<WordBookViewModel>();
 
-            var wordBookSelected = wordBooks.FirstOrDefault(wb => wb.Id == wbId || wb.BookId == wordBook.SelectedBookId || wb.Book?.Name== wordBook.Book);
+            var wordBookSelected = wordBooks.FirstOrDefault(wb => wb.Id == wbId || wb.BookId == wordBook.SelectedBookId || wb.Book?.Name == wordBook.Book);
             if (wordBookSelected?.Pages.Any(p => (p.Id == pageId ||
                 (p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
                 (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord)) && p.Lines.Count() > 1) ?? false)
             {
                 foreach (var wb in wordBooks)
                 {
-                    if(wb.Id == wbId || wb.BookId == wordBook.SelectedBookId)
+                    if (wb.Id == wbId || wb.BookId == wordBook.SelectedBookId)
                     {
                         foreach (var p in wb.Pages)
                         {
@@ -252,7 +252,7 @@ namespace WebSite.Controllers
                     }
                 }
             }
-            else if(wordBookSelected !=null)
+            else if (wordBookSelected != null)
             {
                 wordBooks.Remove(wordBookSelected);
             }

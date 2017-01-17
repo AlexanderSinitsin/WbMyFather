@@ -111,7 +111,7 @@ namespace WbMyFather.BLL.Services
 
             foreach (var wordBookDto in wordBookDtos)
             {
-                var wb = word.WordBooks?.SingleOrDefault(t => t.BookId == wordBookDto.BookId);
+                var wb = word.WordBooks?.SingleOrDefault(w => w.Id == wordBookDto.Id || w.BookId == wordBookDto.BookId);
 
                 if (wb != null)
                 {
@@ -127,19 +127,38 @@ namespace WbMyFather.BLL.Services
                     {
                         wb.BookId = wordBookDto.BookId;
                     }
-                    wb.Pages = wordBookDto.Pages?.Select(p => new Page
+
+                    var pages = wordBookDto.Pages?.ToList() ?? new List<PageDto>();
+                    foreach(var page in pages)
                     {
-                        Id = p.Id,
-                        Number = p.Number,
-                        RowId = p.RowId == 0 ? null : p.RowId,
-                        DateRecord = p.DateRecord,
-                        Lines = p.Lines?.Select(l => new Line
+                        if (page.Id == 0)
                         {
-                            Id = l.Id,
-                            Number = l.Number,
-                            Up = l.Up
-                        }).ToList()
-                    }).ToList();
+                            wb.Pages.Add(new Page
+                            {
+                                Number = page.Number,
+                                RowId = page.RowId == 0 ? null : page.RowId,
+                                DateRecord = page.DateRecord,
+                                Lines = page.Lines?.Select(l => new Line
+                                {
+                                    Id = l.Id,
+                                    Number = l.Number,
+                                    Up = l.Up
+                                }).ToList()
+                            });
+                        }
+                        else
+                        {
+                            var pageEnt = wb.Pages.FirstOrDefault(p => p.Id == page.Id);
+                            if (pageEnt == null) throw new EntityNotFoundException();
+
+                            pageEnt.Lines = page.Lines?.Where(l => l.Id == 0)?.Select(l => new Line
+                            {
+                                Id = l.Id,
+                                Number = l.Number,
+                                Up = l.Up
+                            }).ToList();
+                        }
+                    }
                     continue;
                 }
                 else
@@ -178,7 +197,7 @@ namespace WbMyFather.BLL.Services
                 {
                     foreach (var page in wb.Pages.ToList())
                     {
-                        if (wordBookDto.Pages.Any(dto => (dto.Number != page.Number && dto.RowId != page.RowId) || (dto.DateRecord.HasValue && dto.DateRecord != page.DateRecord)))
+                        if (wordBookDto.Pages.Any(dto => (dto.Id > 0 && dto.Id != page.Id) || (dto.Number != page.Number && dto.RowId != page.RowId) || (dto.DateRecord.HasValue && dto.DateRecord != page.DateRecord)))
                         {
                             wb.Pages.Remove(page);
                         }
@@ -193,7 +212,7 @@ namespace WbMyFather.BLL.Services
                 }
             }
             //delete
-            foreach (var wordBook in word.WordBooks.Where(t => wordBookDtos.All(dto => dto.BookId != t.BookId)).ToList())
+            foreach (var wordBook in word.WordBooks.Where(w => wordBookDtos.All(dto => dto.Id != w.Id || dto.BookId != w.BookId)).ToList())
             {
                 _wordBookRepository.Remove(wordBook);
             }
