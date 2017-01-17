@@ -104,11 +104,12 @@ namespace WebSite.Controllers
                 Name = model.Name,
                 WordBooks = model.WordBooks.Select(wb => new WordBookDto
                 {
+                    Id = wb.Id,
                     WordId = wb.WordId,
                     BookId = wb.BookId,
                     Book = new BookDto
                     {
-                        Name = wb.Book?.Name
+                        Name = wb.BookId == 0 ? wb.Book?.Name : null
                     },
                     Pages = wb.Pages.Select(p => new PageDto
                     {

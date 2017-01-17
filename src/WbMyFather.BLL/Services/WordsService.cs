@@ -63,11 +63,11 @@ namespace WbMyFather.BLL.Services
                 WordBooks = request.WordBooks?.Select(w => new WordBook
                 {
                     BookId = w.BookId,
-                    Book = new Book
+                    Book = w.BookId == 0 ? new Book
                     {
                         Name = w.Book?.Name,
                         DateCreate = DateTime.UtcNow
-                    },
+                    } : null,
                     Pages = w.Pages?.Select(p => new Page
                     {
                         Number = p.Number,
