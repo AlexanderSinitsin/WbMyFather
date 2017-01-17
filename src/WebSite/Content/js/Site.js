@@ -366,7 +366,7 @@ var Word = (function () {
             Number: $('#SelectedWordBook_Number').val(),
             DateRecord: $('#SelectedWordBook_DateRecord').val(),
             SelectedRowId: $('#SelectedWordBook_SelectedRowId').val(),
-            Up: $('#SelectedWordBook_Up').val(),
+            Up: $('#SelectedWordBook_Up').prop('checked'),
             LineNumber: $('#SelectedWordBook_LineNumber').val()
           }
         })
