@@ -22,11 +22,15 @@ namespace WbMyFather.BLL.Services
     public class WordsService : ServiceBase<Word>, IWordsService
     {
         private readonly IRepository<WordBook> _wordBookRepository;
+        private readonly IRepository<Line> _lineRepository;
+        private readonly IRepository<Page> _pageRepository;
 
-        public WordsService(IUnitOfWork uoW, IRepository<Word> repository, IMapper mapper, ILog logger, IRepository<WordBook> wordBookRepository)
+        public WordsService(IUnitOfWork uoW, IRepository<Word> repository, IMapper mapper, ILog logger, IRepository<WordBook> wordBookRepository, IRepository<Line> lineRepository, IRepository<Page> pageRepository)
             : base(uoW, repository, mapper, logger)
         {
             _wordBookRepository = wordBookRepository;
+            _lineRepository = lineRepository;
+            _pageRepository = pageRepository;
         }
 
         public async Task<IEnumerable<TDto>> GetAll<TDto>()
@@ -129,7 +133,7 @@ namespace WbMyFather.BLL.Services
                     }
 
                     var pages = wordBookDto.Pages?.ToList() ?? new List<PageDto>();
-                    foreach(var page in pages)
+                    foreach (var page in pages)
                     {
                         if (page.Id == 0)
                         {
@@ -159,7 +163,6 @@ namespace WbMyFather.BLL.Services
                             }).ToList();
                         }
                     }
-                    continue;
                 }
                 else
                 {
@@ -190,29 +193,37 @@ namespace WbMyFather.BLL.Services
                         newWb.BookId = wordBookDto.BookId;
                     }
                     word.WordBooks.Add(newWb);
+                    continue;
                 }
 
                 //delete
                 if (wb != null)
                 {
-                    foreach (var page in wb.Pages.ToList())
+
+                    continue;
+                }
+            }
+
+            //delete
+            foreach (var wordBook in word.WordBooks.Where(wb => wordBookDtos.Any(dto => dto.BookId == wb.BookId)).ToList())
+            {
+                foreach (var page in wordBook.Pages.Where(pg => wordBookDtos.Any(dto => dto.BookId == wordBook.BookId && dto.Pages.All(p => (p.Id == pg.Id)))).ToList())
+                {
+                    var lines = page.Lines?.Where(l => wordBookDtos.Any(wb => wb.Pages.Any(p => p.Id == page.Id && ((p.Lines?.All(ldto => ldto.Id != l.Id || (ldto.Number != l.Number && ldto.Up != l.Up)) ?? true) || !p.Lines.Any())))).ToList();
+                    if (page.Lines.Count() > 1 && lines.Any() && lines.Count < page.Lines.Count())
                     {
-                        if (wordBookDto.Pages.Any(dto => (dto.Id > 0 && dto.Id != page.Id) || (dto.Number != page.Number && dto.RowId != page.RowId) || (dto.DateRecord.HasValue && dto.DateRecord != page.DateRecord)))
+                        foreach (var line in lines)
                         {
-                            wb.Pages.Remove(page);
-                        }
-                        else
-                        {
-                            foreach (var line in page.Lines?.Where(l => wordBookDto.Pages.Any(p => p.Lines?.Any(ldto => ldto.Number != l.Number && ldto.Up != l.Up) ?? false)).ToList())
-                            {
-                                page.Lines.Remove(line);
-                            }
+                            _lineRepository.Remove(line);
                         }
                     }
                 }
+                foreach (var page in wordBook.Pages.Where(pg => wordBookDtos.Any(dto => dto.BookId == wordBook.BookId && dto.Pages.All(p => (p.Id != pg.Id)))).ToList())
+                {
+                    _pageRepository.Remove(page);
+                }
             }
-            //delete
-            foreach (var wordBook in word.WordBooks.Where(w => wordBookDtos.All(dto => dto.Id != w.Id || dto.BookId != w.BookId)).ToList())
+            foreach (var wordBook in word.WordBooks.Where(wb => wordBookDtos.All(dto => dto.BookId != wb.BookId)).ToList())
             {
                 _wordBookRepository.Remove(wordBook);
             }

@@ -230,35 +230,44 @@ namespace WebSite.Controllers
                 new List<WordBookViewModel>();
 
             var wordBookSelected = wordBooks.FirstOrDefault(wb => wb.Id == wbId || wb.BookId == wordBook.SelectedBookId || wb.Book?.Name == wordBook.Book);
-            if (wordBookSelected?.Pages.Any(p => (p.Id == pageId ||
-                (p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
-                (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord)) && p.Lines.Count() > 1) ?? false)
+            if (wordBookSelected==null)
             {
-                foreach (var wb in wordBooks)
+                return Json(new { error = true });
+            }
+            foreach (var wb in wordBooks)
+            {
+                if (wb.Id == wbId || wb.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == wb.Book?.Name))
                 {
-                    if (wb.Id == wbId || wb.BookId == wordBook.SelectedBookId)
+                    if (wb.Pages.Count() <= 1 && wb.Pages.Any(p => p.Lines.Count() <= 1))
                     {
-                        foreach (var p in wb.Pages)
+                        wordBooks.Remove(wb);
+                    }
+                    else
+                    {
+                        var pages = wb.Pages.ToList();
+                        foreach (var p in pages)
                         {
                             if (p.Id == pageId ||
                                 (p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
                                 (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord))
                             {
                                 var lines = p.Lines.ToList();
-                                lines.Remove(lines.FirstOrDefault(l => l.Id == lineId || (l.Number == wordBook.LineNumber && l.Up == wordBook.Up)));
-                                p.Lines = lines;
+                                if (lines.Count > 1)
+                                {
+                                    lines.Remove(lines.FirstOrDefault(l => l.Id == lineId || (l.Number == wordBook.LineNumber && l.Up == wordBook.Up)));
+                                    p.Lines = lines;
+                                }
+                                else
+                                {
+                                    pages.Remove(p);
+                                }
+                                break;
                             }
                         }
+                        wb.Pages = pages;
                     }
+                    break;
                 }
-            }
-            else if (wordBookSelected != null)
-            {
-                wordBooks.Remove(wordBookSelected);
-            }
-            else
-            {
-                return Json(new { error = true });
             }
 
             Session["WordBooks"] = wordBooks;
