@@ -207,10 +207,10 @@ namespace WbMyFather.BLL.Services
             //delete
             foreach (var wordBook in word.WordBooks.Where(wb => wordBookDtos.Any(dto => dto.BookId == wb.BookId)).ToList())
             {
-                foreach (var page in wordBook.Pages.Where(pg => wordBookDtos.Any(dto => dto.BookId == wordBook.BookId && dto.Pages.All(p => (p.Id == pg.Id)))).ToList())
+                foreach (var page in wordBook.Pages.Where(pg => wordBookDtos.Any(dto => dto.BookId == wordBook.BookId && dto.Pages.Any(p => (p.Id == pg.Id)))).ToList())
                 {
-                    var lines = page.Lines?.Where(l => wordBookDtos.Any(wb => wb.Pages.Any(p => p.Id == page.Id && ((p.Lines?.All(ldto => ldto.Id != l.Id || (ldto.Number != l.Number && ldto.Up != l.Up)) ?? true) || !p.Lines.Any())))).ToList();
-                    if (page.Lines.Count() > 1 && lines.Any() && lines.Count < page.Lines.Count())
+                    var lines = page.Lines?.Where(l => wordBookDtos.Any(wb => wb.Pages.Any(p => p.Id == page.Id && (!(p.Lines?.Any(ldto => ldto.Id == l.Id || (ldto.Number == l.Number && ldto.Up == l.Up)) ?? true) && p.Lines.Any())))).ToList();
+                    if (page.Lines?.Count() > 1 && lines.Any() && lines.Count < page.Lines?.Count())
                     {
                         foreach (var line in lines)
                         {
