@@ -52,7 +52,7 @@
           }
         })
         .error(function (xhr, status, statusCode) {
-          console.log(status + ': ' + statusCode, xhr);
+          console.error(status + ': ' + statusCode, xhr);
         });
       }
     }
@@ -100,15 +100,6 @@
         Popups.showPopup(editUrl.format($(this).data('id')), null, $('#object-edit-content'), $("#object-edit"));
       })
       .on('click', '#addWordBook', function () {
-        var control = $(this);
-        var table = $('#wordbooksTable tbody');
-        var inputChell = $('#wordbooksTable tbody tr').last();
-        var first = $('#wordbooksTable tbody tr').first().text().indexOf('Записи отсутствуют') > -1;
-        var books = $('#SelectedWordBook_SelectedBookId option');
-        var rows = $('#SelectedWordBook_SelectedRowId option');
-        console.log(books, rows);
-
-        $('#wordbooksTable_processing').attr('style', 'display: block;');
         $.ajax({
           url: addWordBookUrl,
           type: 'POST',
@@ -123,82 +114,18 @@
           }
         })
         .success(function (result) {
-          console.log(result.result);
           if (result.result) {
-            var addedTr = '';
-            $.each(result.result, function (idx, wb) {
-              var rowsCount = 1;
-              var pages = '';
-
-              var book = '';
-              if (wb.BookId) {
-                books.each(function (idx, bookItem) {
-                  if (bookItem.value == wb.BookId) {
-                    book = bookItem.text;
-                  }
-                });
-              } else if (wb.Book && wb.Book.Name) {
-                book = wb.Book.Name;
-              }
-              $.each(wb.Pages, function (idx, pg) {
-                var lines = '';
-                var rowspanLine = pg.Lines.length + 1;
-                rowsCount += (rowspanLine);
-                var date;
-                var colspan = 1;
-
-                var row = '';
-                if (pg.RowId) {
-                  rows.each(function (idx, rowItem) {
-                    if (rowItem.value == pg.RowId) {
-                      row = rowItem.text;
-                    }
-                  });
-                } else if (pg.Row && pg.Row.Name) {
-                  row = pg.Row.Name;
-                }
-
-                var number = pg.Number + " " + row;
-                var minus = '';
-                if (pg.DateRecord) {
-                  console.log(pg.DateRecord.replace('/Date(', '').replace(')/', ''));
-                  date = new Date(pg.DateRecord.replace('/Date(', '').replace(')/', ''));
-                  colspan = 2;
-                  number = date.toString();
-                  minus = '<span class="input-group-btn"><a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook ' +
-                    'data-wbid="' + wb.Id + '" data-bid="' + wb.BookId + '" data-book="' + book + '" data-pgid="' + pg.Id + '" data-daterecord="' + pg.DateRecord + '" data-page="' + pg.Number + '"' +
-                    '"><i class="fa fa-minus"></i></a></span>';
-                } else {
-                  $.each(pg.Lines, function (idx, line) {
-                    var data = line.Up ? "<i class='fa fa-long-arrow-down' />" + line.Number : "<i class='fa fa-long-arrow-up' />" + line.Number;
-                    lines += '<tr><td class="text-center"><div class="input-group">' + data + '<span class="input-group-btn">' +
-                      '<a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook" ' +
-                      'data-wbid="' + wb.Id + '" data-bid="' + wb.BookId + '" data-book="' + book + '" data-pgid="' + pg.Id + '" data-lineid="' + line.Id + '"' + '" data-page="' + pg.Number + '"' + '" data-rowid="' + pg.RowId + '"' + '" data-up="' + line.Up + '"' + '" data-line="' + line.Number + '"' +
-                      '><i class="fa fa-minus"></i></a>' +
-                      '</span></div></td></tr>';
-                  });
-                }
-                pages += '<tr><td class="text-center" rowspan="' + rowspanLine + '" colspan="' + colspan + ')"> <div class="input-group"><div class="input-group">' + number + ' </div>' + minus + ' </div></tr>' +
-                  lines;
-              });
-
-              addedTr += '<tr><td class="text-center" rowspan="' + rowsCount + '">' + book + ' </td></tr>' + pages;
-            });
-
-            $('#wordbooksTable tbody').html(addedTr + '<tr>' + inputChell.html() + '</tr>');
-
+            var books = $('#SelectedWordBook_SelectedBookId option');
+            var rows = $('#SelectedWordBook_SelectedRowId option');
+            generateTable(result.result, books, rows);
           }
         })
         .error(function (xhr, status, statusCode) {
-          $('#wordbooksTable_processing').attr('style', 'display: none;');
-          console.log(status + ': ' + statusCode);
+          console.error(status + ': ' + statusCode);
         });
       })
       .on('click', '#delWordBook', function () {
         var control = $(this);
-        //var table = $('#wordbooksTable').DataTable();
-
-        $('#wordbooksTable_processing').attr('style', 'display: block;');
         $.ajax({
           url: delWordBookUrl,
           type: 'POST',
@@ -217,17 +144,83 @@
         })
         .success(function (result) {
           if (result.result) {
-            console.log(result.result);
             control.closest('tr').remove();
           } else {
-            console.log('Ошибка удаления записи');
+            console.error('Ошибка удаления записи');
           }
         })
         .error(function (xhr, status, statusCode) {
-          $('#wordbooksTable_processing').attr('style', 'display: none;');
-          console.log(status + ': ' + statusCode);
+          console.error(status + ': ' + statusCode);
         });
       });
+  }
+
+  function generateTable(objects, books, rows) {
+    var addedTr = '';
+    var inputChell = $('#wordbooksTable tbody tr').last();
+    // Счетчик по книгам
+    $.each(objects, function (idx, wb) {
+      // Название книги
+      var book = '';
+      if (wb.BookId) {
+        books.each(function (idx, bookItem) {
+          if (bookItem.value == wb.BookId) {
+            book = bookItem.text;
+          }
+        });
+      } else if (wb.Book && wb.Book.Name) {
+        book = wb.Book.Name;
+      }
+      // Счетчик по страницам
+      $.each(wb.Pages, function (idx, pg) {
+        // Дата записи
+        var date;
+        // Объединение ячеек страниц и линий
+        var colspan = 1;
+        // Название колонки страницы
+        var row = '';
+        if (pg.RowId) {
+          rows.each(function (idx, rowItem) {
+            if (rowItem.value == pg.RowId) {
+              row = rowItem.text;
+            }
+          });
+        } else if (pg.Row && pg.Row.Name) {
+          row = pg.Row.Name;
+        }
+        // Полное название страницы
+        var number = pg.Number + " " + row;
+        // Контрол удаления записи
+        var minus = '';
+        if (pg.DateRecord) {
+          // Парсим дату из строки в число
+          date = Number(pg.DateRecord.replace('/Date(', '').replace(')/', ''));
+          colspan = 2;
+          number = new Date(date).toLocaleDateString("ru-RU");
+          minus = '<span class="input-group-btn"><a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook" ' +
+            'data-wbid="' + wb.Id + '" data-bid="' + wb.BookId + '" data-book="' + book + '" data-pgid="' + pg.Id + '" data-daterecord="' + number + '" data-page="' + pg.Number + '"' +
+            '"><i class="fa fa-minus"></i></a></span>';
+
+          addedTr += '<tr><td class="text-center">' + book + ' </td>' + // Книги
+              '<td class="text-center" colspan="' + colspan + '"> <div class="input-group"><div class="input-group">' + number + ' </div>' + minus + ' </div></td>' + // Страницы
+              '<td class="hidden"></td></tr>'; // Строки
+        } else {
+          // Счетчик по строкам
+          $.each(pg.Lines, function (idx, line) {
+            var data = line.Up ? "<i class='fa fa-long-arrow-down' />" + line.Number : "<i class='fa fa-long-arrow-up' />" + line.Number;
+            addedTr += '<tr><td class="text-center">' + book + ' </td>' + // Книги
+              '<td class="text-center" colspan="' + colspan + '"> <div class="input-group"><div class="input-group">' + number + ' </div> </div></td>' + // Страницы
+              '<td class="text-center"><div class="input-group">' + data + '<span class="input-group-btn">' + // Строки
+              '<a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook" ' +
+              'data-wbid="' + wb.Id + '" data-bid="' + wb.BookId + '" data-book="' + book + '" data-pgid="' + pg.Id + '" data-lineid="' + line.Id + '"' + '" data-page="' + pg.Number + '"' + '" data-rowid="' + pg.RowId + '"' + '" data-up="' + line.Up + '"' + '" data-line="' + line.Number + '"' +
+              '><i class="fa fa-minus"></i></a>' +
+              '</span></div></td></tr>';
+          });
+        }
+      });
+    });
+
+    $('#wordbooksTable tbody').html(addedTr + '<tr>' + inputChell.html() + '</tr>');
   }
 
   function show(option) {

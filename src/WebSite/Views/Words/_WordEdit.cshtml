@@ -61,50 +61,69 @@
                 {
                   foreach (var wordbook in Model.WordBooks)
                   {
-                        <tr>
-                          <td class="text-center" rowspan="@(wordbook.Pages.Sum(p=>p.Lines?.Count() + 1) + 1)">
-                            @(wordbook.Book?.Name)
-                          </td>
-                        </tr>
                     if (wordbook.Pages.Any())
                     {
                       foreach (var page in wordbook.Pages)
                       {
-                                <tr>
-                                  <td class="text-center" rowspan="@(page.Lines?.Count() + 1 ?? 1)" colspan="@(page.DateRecord.HasValue ? 2 : 1)">
-                                    <div class="input-group">
-                                      <div class="input-group">
-                                        @(page.DateRecord.HasValue ? page.DateRecord?.ToString("D") : page.Number + " " + page.Row?.Name)
-                                      </div>
-                                      @if (page.DateRecord.HasValue)
-                                      {
-                                          <span class="input-group-btn">
-                                            <a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook" data-wbid="@wordbook.Id" data-bid="@wordbook.BookId" data-pgid="@page.Id" data-daterecord="@(page.DateRecord?.ToString("D"))">
-                                            <i class="fa fa-minus"></i>
-                                            </a>
-                                          </span>
-                                      }
-                                    </div>
-                                  </td>
-                                </tr>
-
                         if (page.Lines?.Any() ?? false)
                         {
                           foreach (var line in page.Lines)
                           {
                                         <tr>
                                           <td class="text-center">
+                                            @(wordbook.Book?.Name)
+                                          </td>
+                                          <td class="text-center" colspan="@(page.DateRecord.HasValue ? 2 : 1)">
+                                            <div class="input-group">
+                                              <div class="input-group">
+                                                @(page.DateRecord.HasValue ? page.DateRecord?.ToString("D") : page.Number + " " + page.Row?.Name)
+                                              </div>
+                                              @if (page.DateRecord.HasValue)
+                                              {
+                                                  <span class="input-group-btn">
+                                                    <a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook" data-wbid="@wordbook.Id" data-bid="@wordbook.BookId" data-pgid="@page.Id" data-daterecord="@(page.DateRecord?.ToString("D"))">
+                                                      <i class="fa fa-minus"></i>
+                                                    </a>
+                                                  </span>
+                                              }
+                                            </div>
+                                          </td>
+                                          <td class="text-center">
                                             <div class="input-group">
                                               @Html.Raw(line.Up ? "<i class='fa fa-long-arrow-down' />" + line.Number : "<i class='fa fa-long-arrow-up' />" + line.Number)
                                               <span class="input-group-btn">
                                                 <a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook" data-wbid="@wordbook.Id" data-bid="@wordbook.BookId" data-pgid="@page.Id" data-lineid="@line.Id">
-                                                <i class="fa fa-minus"></i>
+                                                  <i class="fa fa-minus"></i>
                                                 </a>
                                               </span>
                                             </div>
                                           </td>
                                         </tr>
                           }
+                        }
+                        else
+                        {
+                                    <tr>
+                                      <td class="text-center">
+                                        @(wordbook.Book?.Name)
+                                      </td>
+                                      <td class="text-center" colspan="@(page.DateRecord.HasValue ? 2 : 1)">
+                                        <div class="input-group">
+                                          <div class="input-group">
+                                            @(page.DateRecord.HasValue ? page.DateRecord?.ToString("D") : page.Number + " " + page.Row?.Name)
+                                          </div>
+                                          @if (page.DateRecord.HasValue)
+                                          {
+                                              <span class="input-group-btn">
+                                                <a class="pull-right btn btn-sm btn-default no-borders" id="delWordBook" data-wbid="@wordbook.Id" data-bid="@wordbook.BookId" data-pgid="@page.Id" data-daterecord="@(page.DateRecord?.ToString("D"))">
+                                                  <i class="fa fa-minus"></i>
+                                                </a>
+                                              </span>
+                                          }
+                                        </div>
+                                      </td>
+                                      <td class="hidden"></td>
+                                    </tr>
                         }
                       }
                     }
@@ -123,7 +142,7 @@
                 <tr class="no-borders">
                   <td class="no-borders">
                     @Html.DropDownListFor(d => d.SelectedWordBook.SelectedBookId, new SelectList(Model.BookList, "Id", "Name"), new { @class = "form-control" })
-                    @Html.TextBoxFor(t => t.SelectedWordBook.Book, new { @class = "form-control", type = "text", placeholder="Новая книга" })
+                    @Html.TextBoxFor(t => t.SelectedWordBook.Book, new { @class = "form-control", type = "text", placeholder = "Новая книга" })
                   </td>
                   <td class="no-borders">
                     <div class="input-group">
