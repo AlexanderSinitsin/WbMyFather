@@ -15,6 +15,7 @@ namespace WebSite.ViewModels.Books
         [Display(Name = "Дата создания")]
         public DateTime? DateCreate { get; set; }
 
+        [Required(ErrorMessage = "Поле {0} не может быть пустым.")]
         [Display(Name = "Книга")]
         public string Name { get; set; }
 

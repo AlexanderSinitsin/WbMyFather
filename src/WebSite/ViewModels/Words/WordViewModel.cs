@@ -16,6 +16,7 @@ namespace WebSite.ViewModels.Words
         [Display(Name = "Дата создания")]
         public DateTime? DateCreate { get; set; }
 
+        [Required(ErrorMessage ="Поле {0} не может быть пустым.")]
         [Display(Name = "Слово")]
         public string Name { get; set; }
 

@@ -51,8 +51,8 @@
             alert("Ошибка удаления");
           }
         })
-        .error(function (xhr, status, statusCode) {
-          console.error(status + ': ' + statusCode, xhr);
+        .error(function (xhr, status, error) {
+          console.error(status + ': ' + error, xhr);
         });
       }
     }
@@ -100,6 +100,7 @@
         Popups.showPopup(editUrl.format($(this).data('id')), null, $('#object-edit-content'), $("#object-edit"));
       })
       .on('click', '#addWordBook', function () {
+        $('span.text-danger').empty();
         $.ajax({
           url: addWordBookUrl,
           type: 'POST',
@@ -119,9 +120,18 @@
             var rows = $('#SelectedWordBook_SelectedRowId option');
             generateTable(result.result, books, rows);
           }
+          else if (result.error) {
+            var error = result.error;
+            $('span.text-danger').empty();
+            $('span.text-danger').each((idx, validate) => {
+              if ($(validate).data('valmsgFor') == error.field) {
+                $(validate).text(error.text);
+              }
+            });
+          }
         })
-        .error(function (xhr, status, statusCode) {
-          console.error(status + ': ' + statusCode);
+        .error(function (xhr, status, error) {
+          console.error(status + ': ' + error, xhr);
         });
       })
       .on('click', '#delWordBook', function () {
@@ -143,14 +153,14 @@
           }
         })
         .success(function (result) {
-          if (result.result) {
+          if (result) {
             control.closest('tr').remove();
           } else {
             console.error('Ошибка удаления записи');
           }
         })
-        .error(function (xhr, status, statusCode) {
-          console.error(status + ': ' + statusCode);
+        .error(function (xhr, status, error) {
+          console.error(status + ': ' + error, xhr);
         });
       });
   }

@@ -43,6 +43,7 @@
                 </td>
                 <td class="no-borders" colspan="2">
                   @Html.TextBoxFor(t => t.Name, new { @class = "form-control" })
+                  @Html.ValidationMessageFor(v => v.Name, "", new { @class = "text-danger" })
                 </td>
               </tr>
             </table>

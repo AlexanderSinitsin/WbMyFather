@@ -94,6 +94,10 @@ namespace WebSite.Controllers
                 (List<WordBookViewModel>)Session["WordBooks"] :
                 new List<WordBookViewModel>();
             await getLists(model);
+            if (!model.WordBooks.Any())
+            {
+                ModelState.AddModelError("SelectedWordBook.SelectedBookId", "Необходимо добавить хотя бы одну запись.");
+            }
             if (!ModelState.IsValid)
             {
                 return PartialView("_WordEdit", model);
@@ -163,12 +167,12 @@ namespace WebSite.Controllers
 
             if (wordBook.SelectedBookId <= 0 && string.IsNullOrEmpty(wordBook.Book))
             {
-                return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Поле книга не может быть пустым." } });
+                return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Поле Книга не может быть пустым." } });
             }
 
             if (!wordBook.Number.HasValue && !wordBook.DateRecord.HasValue)
             {
-                return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Необходимо указать номер страницы или дату записи." } });
+                return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Необходимо указать Номер страницы или дату записи." } });
             }
 
             if (wordBook.Number.HasValue && !wordBook.LineNumber.HasValue)
@@ -297,7 +301,7 @@ namespace WebSite.Controllers
 
             Session["WordBooks"] = wordBooks;
 
-            return Json(new { result = true });
+            return Json(true);
         }
 
         private async Task getLists(WordViewModel model)
