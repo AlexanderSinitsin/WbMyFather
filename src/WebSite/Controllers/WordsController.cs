@@ -237,26 +237,12 @@ namespace WebSite.Controllers
             }
 
             // Ищем в общем списке выбранную книгу
-            var thisWordBook = wordBooks.FirstOrDefault(wb => (wb.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == wb.Book?.Name)));
-            if (thisWordBook == null)
+            if (!wordBooks.Any(wb => (wb.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == wb.Book?.Name))))
             {
                 wordBooks.Add(selectedWordBook);
             }
-            else
-            {
-                var pages = thisWordBook.Pages.Union(selectedWordBook.Pages);
-                foreach (var book in wordBooks)
-                {
-                    if (book.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == book.Book?.Name))
-                    {
-                        book.Pages = pages;
-                        break;
-                    }
-                }
-            }
 
             Session["WordBooks"] = wordBooks;
-
             return Json(new { result = wordBooks });
         }
 
