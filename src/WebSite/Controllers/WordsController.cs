@@ -176,15 +176,15 @@ namespace WebSite.Controllers
                 return Json(new { result = false, error = new { field = "SelectedWordBook.SelectedBookId", text = "Номер строки не может быть пустым." } });
             }
 
-            var selectedWordBook = wordBooks.FirstOrDefault(wb => (wb.BookId == wordBook.SelectedBookId || wb.Book?.Name == wordBook.Book)
-                 && wb.Pages.Any(p => (p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
-                 p.DateRecord == wordBook.DateRecord)) ??
-                 wordBooks.FirstOrDefault(wb => wb.BookId == wordBook.SelectedBookId) ?? new WordBookViewModel
+            // Приводим введенные данные кобщему представлению
+            var selectedWordBook = wordBooks.FirstOrDefault(wb => (wb.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == wb.Book?.Name))
+                 && wb.Pages.Any(p => (wordBook.Number.HasValue && p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
+                 (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord))) ??
+                 wordBooks.FirstOrDefault(wb => wb.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == wb.Book?.Name)) ?? new WordBookViewModel
                  {
-                     BookId = wordBook.SelectedBookId,
                      Pages = new List<Page>()
                  };
-            wordBooks.Remove(selectedWordBook);
+            // Фиксируем данные о выбранной книге
             if (!string.IsNullOrEmpty(wordBook.Book))
             {
                 selectedWordBook.Book = new Book
@@ -192,29 +192,68 @@ namespace WebSite.Controllers
                     Name = wordBook.Book
                 };
             }
-            var pages = selectedWordBook.Pages.ToList();
-            var page = pages.FirstOrDefault(p => (p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
-                 (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord)) ?? new Page
-                 {
-                     DateRecord = wordBook.DateRecord,
-                     Number = wordBook.Number,
-                     RowId = wordBook.SelectedRowId,
-                     Lines = new List<Line>()
-                 };
-            pages.Remove(page);
-            var lines = page.Lines.ToList();
-            if (!lines.Any(l => l.Number == wordBook.LineNumber && l.Up == wordBook.Up))
+            else
             {
-                lines.Add(new Line
-                {
-                    Number = wordBook.LineNumber.HasValue ? wordBook.LineNumber.Value : 0,
-                    Up = wordBook.Up
+                selectedWordBook.BookId = wordBook.SelectedBookId;
+            }
+            // Создаем список страниц с линиями
+            if (!selectedWordBook.Pages.Any() || !selectedWordBook.Pages.Any(p => (wordBook.Number.HasValue && p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
+                  (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord)))
+            {
+                selectedWordBook.Pages = selectedWordBook.Pages.Concat(new List<Page> {
+                    new Page
+                    {
+                        DateRecord=wordBook.DateRecord,
+                        Number=wordBook.Number,
+                        RowId=wordBook.SelectedRowId,
+                        Lines = new List<Line>
+                        {
+                          new Line{
+                              Number=wordBook.LineNumber.HasValue ? wordBook.LineNumber.Value : 0,
+                              Up=wordBook.Up
+                            }
+                        }
+                    }
                 });
             }
-            page.Lines = lines;
-            pages.Add(page);
-            selectedWordBook.Pages = pages;
-            wordBooks.Add(selectedWordBook);
+            else
+            {
+                var pages = selectedWordBook.Pages.Any(p => (wordBook.Number.HasValue && p.Number == wordBook.Number && p.RowId == wordBook.SelectedRowId) ||
+                  (wordBook.DateRecord.HasValue && p.DateRecord == wordBook.DateRecord));
+                foreach (var page in selectedWordBook.Pages)
+                {
+                    if ((wordBook.Number.HasValue && page.Number == wordBook.Number && page.RowId == wordBook.SelectedRowId) ||
+                        (wordBook.DateRecord.HasValue && page.DateRecord == wordBook.DateRecord))
+                    {
+                        page.Lines = page.Lines.Concat(new List<Line> {
+                            new Line {
+                                Number=wordBook.LineNumber.HasValue ? wordBook.LineNumber.Value : 0,
+                                Up=wordBook.Up
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
+
+            // Ищем в общем списке выбранную книгу
+            var thisWordBook = wordBooks.FirstOrDefault(wb => (wb.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == wb.Book?.Name)));
+            if (thisWordBook == null)
+            {
+                wordBooks.Add(selectedWordBook);
+            }
+            else
+            {
+                var pages = thisWordBook.Pages.Union(selectedWordBook.Pages);
+                foreach (var book in wordBooks)
+                {
+                    if (book.BookId == wordBook.SelectedBookId || (!string.IsNullOrEmpty(wordBook.Book) && wordBook.Book == book.Book?.Name))
+                    {
+                        book.Pages = pages;
+                        break;
+                    }
+                }
+            }
 
             Session["WordBooks"] = wordBooks;
 
@@ -230,7 +269,7 @@ namespace WebSite.Controllers
                 new List<WordBookViewModel>();
 
             var wordBookSelected = wordBooks.FirstOrDefault(wb => wb.Id == wbId || wb.BookId == wordBook.SelectedBookId || wb.Book?.Name == wordBook.Book);
-            if (wordBookSelected==null)
+            if (wordBookSelected == null)
             {
                 return Json(new { error = true });
             }
