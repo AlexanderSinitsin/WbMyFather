@@ -10,7 +10,7 @@ namespace WebSite.ViewModels.Words
     public class WordListItemViewModel
     {
         [Sortable]
-        [Display(Name = "ID")]
+        [Display(Name = "№")]
         public int Id { get; set; }
 
         public DateTime DateCreate { get; set; }

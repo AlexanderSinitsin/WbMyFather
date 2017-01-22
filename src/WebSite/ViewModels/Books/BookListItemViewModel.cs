@@ -10,7 +10,7 @@ namespace WebSite.ViewModels.Books
     public class BookListItemViewModel
     {
         [Sortable]
-        [Display(Name = "ID")]
+        [Display(Name = "№")]
         public int Id { get; set; }
 
         [StringContainsFilter("Name")]
@@ -20,7 +20,7 @@ namespace WebSite.ViewModels.Books
 
         [StringContainsFilter("Publication")]
         [Sortable]
-        [Display(Name = "Издание")]
+        [Display(Name = "Издательство")]
         public string Publication { get; set; }
 
         [StringContainsFilter("CityOfPublication")]
@@ -28,7 +28,7 @@ namespace WebSite.ViewModels.Books
         [Display(Name = "Город")]
         public string CityOfPublication { get; set; }
 
-        [StringContainsFilter("DateOfPublication")]
+        [DateRangeFilter("DateOfPublication")]
         [Sortable]
         [Display(Name = "Дата издания")]
         public DateTime? DateOfPublication { get; set; }
