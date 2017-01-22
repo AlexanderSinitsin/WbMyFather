@@ -31,13 +31,13 @@ namespace WebSite.Controllers
             _log = log;
         }
 
-        [Route("books")]
+        [Route("книги")]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Route("api/books/{id:int}")]
+        [Route("api/книги/{id:int}")]
         public async Task<ActionResult> Get(int id)
         {
             var bookDto = await _booksService.GetById<BookEasyDto>(id);
@@ -47,7 +47,7 @@ namespace WebSite.Controllers
         }
 
         [HttpPost]
-        [Route("api/books/del")]
+        [Route("api/книги/del")]
         public async Task<ActionResult> Delete(int[] ids)
         {
             try
@@ -62,8 +62,8 @@ namespace WebSite.Controllers
             }
         }
 
-        [Route("api/books/add")]
-        [Route("api/books/{id:int}/edit")]
+        [Route("api/книги/add")]
+        [Route("api/книги/{id:int}/edit")]
         public async Task<ActionResult> Edit(int? id)
         {
             var model = new BookViewModel();
@@ -77,7 +77,7 @@ namespace WebSite.Controllers
         }
 
         [HttpPost]
-        [Route("api/books")]
+        [Route("api/книги")]
         public async Task<ActionResult> Save(BookViewModel model)
         {
             if (!ModelState.IsValid)

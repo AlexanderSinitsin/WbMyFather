@@ -48,10 +48,10 @@
   }
 
   function init() {
-    addUrl = Url.action('api/books/add');
-    showUrl = Url.action('api/books/{0}');
-    editUrl = Url.action('api/books/{0}/edit');
-    deleteUrl = Url.action('api/books/del');
+    addUrl = Url.action('api/книги/add');
+    showUrl = Url.action('api/книги/{0}');
+    editUrl = Url.action('api/книги/{0}/edit');
+    deleteUrl = Url.action('api/книги/del');
     tableId = '#BookListItemViewModelTable';
 
     $(document)
