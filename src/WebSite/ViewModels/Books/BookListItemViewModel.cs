@@ -31,6 +31,8 @@ namespace WebSite.ViewModels.Books
         [DateRangeFilter("DateOfPublication")]
         [Sortable]
         [Display(Name = "Дата издания")]
+        public string PublicationYear => DateOfPublication?.ToString("yyyy") ?? "";
+
         public DateTime? DateOfPublication { get; set; }
 
         public string Reference { get; set; }

@@ -89,10 +89,14 @@ namespace WebSite.Controllers
             {
                 Name = model.Name,
                 CityOfPublication = model.CityOfPublication,
-                DateOfPublication = model.DateOfPublication,
                 Publication = model.Publication,
                 Reference = model.Reference
             };
+
+            if (!string.IsNullOrEmpty(model.YearOfPublication))
+            {
+                request.DateOfPublication = DateTime.Parse(model.YearOfPublication+".01.01");
+            }
 
             try
             {

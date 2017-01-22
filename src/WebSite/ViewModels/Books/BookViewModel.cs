@@ -28,6 +28,8 @@ namespace WebSite.ViewModels.Books
         [Display(Name = "Дата издания")]
         public DateTime? DateOfPublication { get; set; }
 
+        public string YearOfPublication { get; set; }
+
         [Display(Name = "Ссылка на книгу")]
         public string Reference { get; set; }
     }

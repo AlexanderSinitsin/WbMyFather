@@ -81,7 +81,7 @@
                 </td>
                 <td class="no-borders col-md-12">
                   <div class="input-group date">
-                    @Html.TextBoxFor(t => t.DateOfPublication, string.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", Model.DateOfPublication), new { @class = "form-control" })
+                    @Html.TextBoxFor(t => t.YearOfPublication, new { @class = "form-control" })
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                   </div>
                 </td>
@@ -108,10 +108,11 @@
   $(document).ready(function () {
     $('.date').datepicker({
       language: 'ru',
-      format: 'yyyy-mm-dd',
-      todayHighlight: true,
-      toggleActive: true,
-      autoclose: true
+      format: 'yyyy',
+      autoclose: true,
+      minViewMode: 2,
+      maxViewMode: 2,
+      maxDate: '@DateTime.UtcNow.ToString("yyyy-MM-dd")'
     });
   });
 </script>

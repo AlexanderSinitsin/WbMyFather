@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using WbMyFather.DTO;
@@ -76,8 +77,10 @@ namespace WebSite.Mapping
                         ))
                     ))
                  ));
-            CreateMap<BookDto, BookViewModel>();
-            CreateMap<BookEasyDto, BookViewModel>();
+            CreateMap<BookDto, BookViewModel>()
+                .ForMember(x => x.YearOfPublication, d => d.MapFrom(p => p.DateOfPublication.HasValue ? p.DateOfPublication.Value.ToString("yyyy", CultureInfo.InvariantCulture) : string.Empty));
+            CreateMap<BookEasyDto, BookViewModel>()
+                .ForMember(x => x.YearOfPublication, d => d.MapFrom(p => p.DateOfPublication.HasValue ? p.DateOfPublication.Value.ToString("yyyy", CultureInfo.InvariantCulture) : string.Empty));
         }
     }
 }

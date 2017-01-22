@@ -83,7 +83,7 @@
                 @Html.EditLabelFor(l => l.DateOfPublication)
               </td>
               <td>
-                <label class="control-label--custom">@Model.DateOfPublication</label>
+                <label class="control-label--custom">@(Model.DateOfPublication?.ToString("yyyy") ?? "")</label>
               </td>
             </tr>
           </table>
