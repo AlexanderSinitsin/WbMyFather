@@ -431,6 +431,7 @@
     <Content Include="Views\Books\_BookEdit.cshtml" />
     <Content Include="Views\Words\_WordEdit.cshtml" />
     <Content Include="Views\Words\_Word.cshtml" />
+    <None Include="Properties\PublishProfiles\Alex.pubxml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -465,7 +466,16 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>64983</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/Словарь</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

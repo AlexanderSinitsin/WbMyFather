@@ -166,10 +166,6 @@ textarea {
   height: 50px;
   margin: 0;
 }
-.navbar-fixed-top:before {
-  background-color: #0000FF;
-  border-color: #0000FF;
-}
 .navbar-fixed-top {
   background: #0431B4;
   border-bottom: none !important;
@@ -271,9 +267,6 @@ textarea {
 }
 .navbar-form-custom {
   width: 300px;
-}
-.progress-bar-success {
-  background-color: #1c84c6;
 }
 
 body {
